@@ -9,62 +9,40 @@
 #define T_CS 5
 #define SD_CS 13
 
+#define BUILTIN_LED 2
+
+#define buttonA 27
+#define buttonB 26
+#define buttonUP 25
+#define buttonDOWN 33
+
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+#define INVERS 1 //inverser text
+#define NORMAL 0 //normal text
+#define BLAC 2 //black text
+
+#define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
+#define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
 RFM69LPL radio_R(R_CS, DIO2_R, true);
 RFM69LPL radio_T(T_CS, DIO2_T, true);
 
 void setup() {
   initializeTransmit_R();
   initializeTransmit_T();
+  radio_R.setModulationType(MOD_OOK);
+  radio_R.setModulationType(MOD_OOK);
   radio_R.send(0);
   radio_T.send(0);
-
+  initializeDisplay();
 }
 
 void loop() {
-
-}
-
-void initializeTransmit_R(){
-  Serial.println("Transmit R initialization:");
-  unselect_T();
-  unselect_SD();
-  radio_R.initialize(); Serial.println("initialization done.");
-  radio_R.transmitBegin(); Serial.println("transmission begin.");
-  radio_R.setFrequencyMHz(430.000); Serial.println("frequency set.");
-  radio_R.setPowerLevel(35); Serial.println("power level set.");
-  radio_R.writeReg(REG_TESTPA1, 0x5D); 
-  radio_R.writeReg(REG_TESTPA2, 0x7C); Serial.println("high power regs set.");
-  radio_R.setHighPower(1); Serial.println("PA stages set.");
-  Serial.print("frequency: ");Serial.println(radio_R.getFrequency());
-  radio_R.readAllRegs();
-}
-
-void initializeTransmit_T(){
-  Serial.println("Transmit T initialization:");
-  unselect_R();
-  unselect_SD();
-  radio_T.initialize(); Serial.println("initialization done.");
-  radio_T.transmitBegin(); Serial.println("transmission begin.");
-  radio_T.setFrequencyMHz(450.000); Serial.println("frequency set.");
-  radio_T.setPowerLevel(35); Serial.println("power level set.");
-  radio_T.writeReg(REG_TESTPA1, 0x5D); 
-  radio_T.writeReg(REG_TESTPA2, 0x7C); Serial.println("high power regs set.");  
-  radio_T.setHighPower(1); Serial.println("PA stages set."); 
-  Serial.print("frequency: ");Serial.println(radio_T.getFrequency());
-  radio_T.readAllRegs();
-}
-
-void unselect_R(){
-  pinMode(R_CS, OUTPUT);
-  digitalWrite(R_CS, HIGH);
-}
-
-void unselect_T(){
-  pinMode(T_CS, OUTPUT);
-  digitalWrite(T_CS, HIGH);
-}
-
-void unselect_SD(){
-  pinMode(SD_CS, OUTPUT);
-  digitalWrite(SD_CS, HIGH);
+  
 }
