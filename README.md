@@ -13,6 +13,6 @@ Software features and modes (currently in development):
 - Custom library for UI creation in OLED screen
 - Signal jamming and blocking mode, with various types of "pollution"
 - Simple signal recorder, for both OOK and FSK signals
-- Rolljam attack signal recorder and sender, for hacking keyless entry systems
+- Rolljam attack signal recorder and sender, for hacking cars with rolling codes
 - Signal file explorer for recorded signals, using custom file format
 - Button mapping signal sender, providng and easy way to send different signals using different buttons
