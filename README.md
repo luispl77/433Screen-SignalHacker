@@ -10,9 +10,10 @@ Hardware Features:
 
 Software features and modes (currently in development):
 - Custom library for RFM69HW register configurations (https://github.com/luispl77/RFM69LPL)
-- Custom library for UI creation in OLED screen
-- Signal jamming and blocking mode, with various types of "pollution"
+- Custom library for UI creation in OLED screen (https://github.com/luispl77/UI1306LPL)
+- Signal jamming and blocking mode, with various modes of "pollution"
 - Simple signal recorder, for both OOK and FSK signals
 - Rolljam attack signal recorder and sender, for hacking cars with rolling codes
 - Signal file explorer for recorded signals, using custom file format
-- Button mapping signal sender, providng and easy way to send different signals using different buttons
+- Button mapping signal sender, providng an easy way to send different signals using different buttons
+- Graphic signal receiver mode, allowing to see onscreen the OOK/FSK demodulated waveform in realtime (may require using second core of esp32)
