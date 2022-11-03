@@ -1,5 +1,5 @@
 void initializeDisplay(){
-    pinMode(BUILTIN_LED, OUTPUT);
+  pinMode(BUILTIN_LED, OUTPUT);
   if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
@@ -9,7 +9,7 @@ void initializeDisplay(){
   drawText("ROBOTICS", 10, 35, 2, NORMAL);
   display.drawRect(0, 0, display.width(), display.height(), SSD1306_WHITE);
   display.display();
-  delay(2000);
+  delay(1500);
   display.clearDisplay();
 }
 
