@@ -2,6 +2,8 @@
 #include <SPI.h>
 #include <RFM69LPLregisters.h>
 
+#include <UI1306LPL.h>
+
 #define DIO2_T 15
 #define DIO2_R 16
 
@@ -11,27 +13,24 @@
 
 #define BUILTIN_LED 2
 
-#define buttonA 27
-#define buttonB 26
-#define buttonUP 25
-#define buttonDOWN 33
-
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
-#define INVERS 1 //inverser text
-#define NORMAL 0 //normal text
-#define BLAC 2 //black text
-
-#define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
-#define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+uint8_t buttonA = 27;
+uint8_t buttonB = 26;     //buttons pins. these work on ESP32, but add whichever ones you like. 
+uint8_t buttonUP = 25;    //on intializeDisplay(), they're all set to pinMode(x, INPUT_PULLUP).
+uint8_t buttonDOWN = 33;
 
 RFM69LPL radio_R(R_CS, DIO2_R, true);
 RFM69LPL radio_T(T_CS, DIO2_T, true);
+
+
+
+
+
+
+UI1306LPL send_constant_wave;
+UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_constant_wave);
+UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer);
+
+
 
 void setup() {
   initializeTransmit_R();
@@ -40,9 +39,11 @@ void setup() {
   radio_R.setModulationType(MOD_OOK);
   radio_R.send(0);
   radio_T.send(0);
-  initializeDisplay();
+  radio_T.initialize(); //standby mode
+  radio_R.initialize(); //standby mode
+  main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
 }
 
 void loop() {
-  
+  main_menu.runMenu();
 }
