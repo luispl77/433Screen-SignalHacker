@@ -17,3 +17,8 @@ Software features and modes (currently in development):
 - Signal file explorer for recorded signals, using custom file format;
 - Button mapping signal sender, providng an easy way to send different signals using different buttons;
 - Graphic signal receiver mode, allowing to see onscreen the OOK/FSK demodulated waveform in realtime (may require using second core of esp32);
+
+## Hardware
+
+<img width="270" alt="top" src="https://user-images.githubusercontent.com/81360502/200019548-0850a8f0-5479-41c4-92ea-47d86335f9c2.png">
+<img width="268" alt="bottom" src="https://user-images.githubusercontent.com/81360502/200019563-1e905f63-8e2c-447e-a91d-a367f3701991.png">
