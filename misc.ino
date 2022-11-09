@@ -42,3 +42,11 @@ void unselect_SD(){
   pinMode(SD_CS, OUTPUT);
   digitalWrite(SD_CS, HIGH);
 }
+
+void ledOn(){
+  digitalWrite(BUILTIN_LED, HIGH);
+}
+
+void ledOff(){
+  digitalWrite(BUILTIN_LED, LOW);
+}
