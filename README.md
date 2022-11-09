@@ -2,11 +2,11 @@
 Full duplex 433 MHz Signal jammer, recorder, decoder and hacking multitool device based on ESP32 microcontroller and RFM69HW radios. This version of the device provides an OLED screen and simple UI to navigate menus and different hacks/modes/settings.
 
 Hardware Features:
-- ESP32 Node MCU board, USB can be used to power the device;
+- ESP32 Devkit V1 board, USB can be used to power the device;
 - 2x RFM69HW radio boards, in order to provide full duplex signal hacking;
 - SSD1306 128x64 px OLED display;
 - SD card module for signal storage;
-- 4 navigation buttons;
+- 4 navigation buttons.
 
 Software features and modes (currently in development):
 - Custom library for RFM69HW register configurations (https://github.com/luispl77/RFM69LPL);
@@ -17,6 +17,7 @@ Software features and modes (currently in development):
 - Signal file explorer for recorded signals, using custom file format;
 - Button mapping signal sender, providng an easy way to send different signals using different buttons;
 - Graphic signal receiver mode, allowing to see onscreen the OOK/FSK demodulated waveform in realtime (may require using second core of esp32);
+- Spectrum analyser mode: sweeps 415-510Mhz and finds frequency with strongest RSSI.
 
 ## Hardware
 
