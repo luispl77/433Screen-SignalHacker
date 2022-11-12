@@ -33,14 +33,12 @@ UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer);
 
 
 void setup() {
-  initializeTransmit_R();
-  initializeTransmit_T();
-  radio_R.setModulationType(MOD_OOK);
-  radio_R.setModulationType(MOD_OOK);
-  radio_R.send(0);
-  radio_T.send(0);
-  radio_T.initialize(); //standby mode
-  radio_R.initialize(); //standby mode
+  unselect_R(); unselect_SD(); //avoid SPI interference for transmitter
+  radio_T.initialize(); Serial.println("initialization done.");
+  radio_T.setModulationType(MOD_OOK);
+  radio_T.setFrequencyMHz(420.000); Serial.println("frequency set.");
+  radio_T.initializeTransmit(10, PA_MODE_PA1_PA2);
+  radio_T.send(1);
   main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
 }
 
