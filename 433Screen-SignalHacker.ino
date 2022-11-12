@@ -23,22 +23,17 @@ RFM69LPL radio_T(T_CS, DIO2_T, true);
 
 
 
-
-
-
-UI1306LPL send_constant_wave;
-UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_constant_wave);
+UI1306LPL send_cst(&sendConstantWave, MODE_FUNCTION);
+UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
 UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer);
 
 
 
 void setup() {
-  unselect_R(); unselect_SD(); //avoid SPI interference for transmitter
-  radio_T.initialize(); Serial.println("initialization done.");
-  radio_T.setModulationType(MOD_OOK);
-  radio_T.setFrequencyMHz(420.000); Serial.println("frequency set.");
-  radio_T.initializeTransmit(10, PA_MODE_PA1_PA2);
-  radio_T.send(1);
+  pinMode(BUILTIN_LED, OUTPUT);
+  
+  //radio_T.initializeTransmit(10, PA_MODE_PA1_PA2);
+  //radio_T.send(1);
   main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
 }
 
