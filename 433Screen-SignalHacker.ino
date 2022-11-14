@@ -22,11 +22,10 @@ RFM69LPL radio_R(R_CS, DIO2_R, true);
 RFM69LPL radio_T(T_CS, DIO2_T, true);
 
 
-
+UI1306LPL spc_analyser(&spectrumAnalyser, MODE_FUNCTION);
 UI1306LPL send_cst(&sendConstantWave, MODE_FUNCTION);
 UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
-UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer);
-
+UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Spectrum Analyser", &spc_analyser);
 
 
 void setup() {
