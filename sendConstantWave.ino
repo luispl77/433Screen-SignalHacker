@@ -28,6 +28,7 @@ void sendConstantWave(){
     if(send_cst.clickB()){
       ledOff();
       radio_T.send(0);
+      radio_T.transmitEnd();
       break;
     }
   }

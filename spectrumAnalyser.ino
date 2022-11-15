@@ -1,24 +1,22 @@
 void spectrumAnalyser(){
-  send_cst.drawText("frequency:", 0, 20, 1, INVERS); send_cst.drawText(String(frequency, 3), 63, 20, 1, NORMAL);
-  send_cst.drawText("dbm: ", 0, 40, 1, NORMAL); send_cst.drawText(String(dbm), 27, 40, 1, NORMAL);
-  send_cst.drawText("SEND", 80, 50, 1, NORMAL);
-  unselect_R(); unselect_SD(); //avoid SPI interference for transmitter
-  radio_T.initialize(); Serial.println("initialization done.");
-  radio_T.setModulationType(MOD_OOK);
-  radio_T.setFrequencyMHz(frequency); Serial.println("frequency set.");
-  radio_T.initializeTransmit(dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+  int x = 0;
+  unselect_T();
+  unselect_SD();
+  radio_R.initializeReceive();
   delay(200);
   while(1){
-    if(send_cst.clickA()){
-      delay(300);
+    //spc_analyser.updateText(String(digitalRead(DIO2_R)), 0, 0, 1, NORMAL, 1);
+    if(digitalRead(DIO2_R) == 1){
+      spc_analyser.drawPixel(x, 20, 1); //white
+      spc_analyser.drawPixel(x, 30, 0); //black
     }
-    if(send_cst.clickUP()){
-      delay(200);
+    else{
+      spc_analyser.drawPixel(x, 20, 0);
+      spc_analyser.drawPixel(x, 30, 1);
     }
-    if(send_cst.clickDOWN()){
-      delay(200);
-    }
-    if(send_cst.clickB()){
+    x++;
+    if(x == 128) x = 0;
+    if(spc_analyser.clickB()){
 
       break;
     }
