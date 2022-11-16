@@ -21,11 +21,14 @@ uint8_t buttonDOWN = 33;
 RFM69LPL radio_R(R_CS, DIO2_R, true);
 RFM69LPL radio_T(T_CS, DIO2_T, true);
 
-
 UI1306LPL spc_analyser(&spectrumAnalyser, MODE_FUNCTION);
+UI1306LPL gx_analyser(&graphicAnalyser, MODE_FUNCTION);
+UI1306LPL sig_analyser(NULL, MODE_MENU, "Graphic Analyser", &gx_analyser, "Spectrum Analyser", &spc_analyser);
+
 UI1306LPL send_cst(&sendConstantWave, MODE_FUNCTION);
 UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
-UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Spectrum Analyser", &spc_analyser);
+
+UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Signal Analyser", &sig_analyser);
 
 
 void setup() {
