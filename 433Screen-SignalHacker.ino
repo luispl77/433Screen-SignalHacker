@@ -34,6 +34,9 @@ UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Signal An
 void setup() {
   pinMode(BUILTIN_LED, OUTPUT);
   radio_R.initialize();
+  radio_T.initialize();
+  radio_R.setMode(RF69OOK_MODE_STANDBY);
+  radio_T.setMode(RF69OOK_MODE_STANDBY);
   //radio_T.initializeTransmit(10, PA_MODE_PA1_PA2);
   //radio_T.send(1);
   main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
