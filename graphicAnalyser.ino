@@ -14,6 +14,8 @@ void graphicAnalyser(){
       gx_analyser.drawPixel(x, 20, 0);
       gx_analyser.drawPixel(x, 30, 1);
     }
+      //gx_analyser.drawPixel(x + 10, 20, 0);
+      //gx_analyser.drawPixel(x + 10, 30, 0);
     x++;
     if(x == 128) x = 0;
     
