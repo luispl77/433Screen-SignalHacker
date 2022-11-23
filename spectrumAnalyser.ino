@@ -18,7 +18,7 @@ void spectrumAnalyser(){ //sweep 425-450MHz and find highest frequency.
   int division = 10;
   bool found = false;
   while(1){
-    highest_rssi = 200;
+    //highest_rssi = 200;
     current_frequency = best_frequency - (gap/2);
     for(int i = 0; i < gap/increment; i++){
       current_frequency += increment;
