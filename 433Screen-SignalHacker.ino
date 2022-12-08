@@ -18,6 +18,7 @@ uint8_t buttonB = 26;     //buttons pins. these work on ESP32, but add whichever
 uint8_t buttonUP = 25;    //on intializeDisplay(), they're all set to pinMode(x, INPUT_PULLUP).
 uint8_t buttonDOWN = 33;
 
+
 //car mode//////////
 UI1306LPL speed_60(&speed60, MODE_FUNCTION);
 UI1306LPL speed_70(&speed70, MODE_FUNCTION);
@@ -41,7 +42,10 @@ UI1306LPL sig_analyser(NULL, MODE_MENU, "Graphic Analyser", &gx_analyser, "Spect
 UI1306LPL send_cst(&sendConstantWave, MODE_FUNCTION);
 UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
 
-UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Signal Analyser", &sig_analyser, "RC Car", &rc_car);
+UI1306LPL rolljam(&rollJam, MODE_FUNCTION);
+UI1306LPL replay_attacks(NULL, MODE_MENU, "Receiver Config", &rolljam);
+
+UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Signal Analyser", &sig_analyser, "RC Car", &rc_car, "Replay Attacks", &replay_attacks);
 
 
 
