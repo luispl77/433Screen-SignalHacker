@@ -42,8 +42,9 @@ UI1306LPL sig_analyser(NULL, MODE_MENU, "Graphic Analyser", &gx_analyser, "Spect
 UI1306LPL send_cst(&sendConstantWave, MODE_FUNCTION);
 UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
 
-UI1306LPL rolljam(&rollJam, MODE_FUNCTION);
-UI1306LPL replay_attacks(NULL, MODE_MENU, "Receiver Config", &rolljam);
+UI1306LPL t_config(&transmitterConfig, MODE_FUNCTION);
+UI1306LPL r_config(&receiverConfig, MODE_FUNCTION);
+UI1306LPL replay_attacks(NULL, MODE_MENU, "Receiver Config", &r_config, "Transmitter Config", &t_config);
 
 UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Signal Analyser", &sig_analyser, "RC Car", &rc_car, "Replay Attacks", &replay_attacks);
 

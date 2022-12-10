@@ -19,27 +19,28 @@
   float frequency = 433.920;
   float frequency_dev = 5000;
   int fixedThreshold = 10;
-void rollJam(){
-  rolljam.drawText(String(frequency, 3), 0, 0, 1, NORMAL);
-  rolljam.drawText(String(fixedThreshold), 0, 10, 1, NORMAL);
-  rolljam.drawText(String(bw[bw_cursor]), 0, 20, 1, NORMAL);
-  rolljam.drawText(lg[lna_cursor], 0, 30, 1, NORMAL);
-  rolljam.drawText(mod[mod_cursor], 0, 40, 1, NORMAL);
-  rolljam.drawText(String(frequency_dev), 0, 50, 1, NORMAL);
+void receiverConfig(){
+  r_config.drawText("A: scroll", 72, 50, 1, NORMAL);
+  r_config.drawText(String(frequency, 3), 0, 0, 1, NORMAL);
+  r_config.drawText(String(fixedThreshold), 0, 10, 1, NORMAL);
+  r_config.drawText(String(bw[bw_cursor]), 0, 20, 1, NORMAL);
+  r_config.drawText(lg[lna_cursor], 0, 30, 1, NORMAL);
+  r_config.drawText(mod[mod_cursor], 0, 40, 1, NORMAL);
+  r_config.drawText(String(frequency_dev, 0), 0, 50, 1, NORMAL);
   while(1){
-    if(send_cst.clickA()){
+    if(r_config.clickA()){
       changeCursor();
       delay(300);
     }
-    if(send_cst.clickUP()){
+    if(r_config.clickUP()){
       triggerIncrease();
       delay(200);
     }
-    if(send_cst.clickDOWN()){
+    if(r_config.clickDOWN()){
       triggerDecrease();
       delay(200);
     }
-    if(send_cst.clickB()){
+    if(r_config.clickB()){
 
       break;
     }
@@ -48,68 +49,68 @@ void rollJam(){
 
 void changeCursor(){
   _cursor++; if(_cursor == max_cursor + 1) _cursor = 0;
-  rolljam.updateText("   ", 50, (_cursor == 0) ? max_cursor*10 : (_cursor * 10  - 10), 1, NORMAL, 3);
-  rolljam.drawText("<", 50, 10*_cursor, 1, NORMAL);
+  r_config.updateText(" ", 50, (_cursor == 0) ? max_cursor*10 : (_cursor * 10  - 10), 1, NORMAL, 1);
+  r_config.drawText("<", 50, 10*_cursor, 1, NORMAL);
 }
 
 void triggerIncrease(){
   if(_cursor == 0){
     frequency += 0.001; radio_R.setFrequencyMHz(frequency);
-    rolljam.updateText(String(frequency, 3), 0, 0, 1, NORMAL, 8);
+    r_config.updateText(String(frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(_cursor == 1){
     fixedThreshold++; radio_R.setFixedThreshold(fixedThreshold); 
-    rolljam.updateText(String(fixedThreshold), 0, 10, 1, NORMAL, 8);
+    r_config.updateText(String(fixedThreshold), 0, 10, 1, NORMAL, 8);
   }
   else if(_cursor == 2){
     bw_cursor++; if(bw_cursor > 22) bw_cursor = 0;
     radio_R.setBandwidth(bandwidth[bw_cursor]);
-    rolljam.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
+    r_config.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
   }
   else if(_cursor == 3){
     lna_cursor++; if(lna_cursor > 6) lna_cursor = 0;
     radio_R.writeReg(REG_LNA, RF_LNA_ZIN_50 | lna_gain[lna_cursor]);
-    rolljam.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
+    r_config.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
   }
   else if(_cursor == 4){
     mod_cursor++; if(mod_cursor > 1) mod_cursor = 0;
     radio_R.writeReg(REG_DATAMODUL, modulation[mod_cursor]);
-    rolljam.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
+    r_config.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
   }
   if(_cursor == 5){
     if(frequency_dev < 300000) frequency_dev += 500;
     radio_R.setFrequencyDev(frequency_dev);
-    rolljam.updateText(String(frequency_dev), 0, 50, 1, NORMAL, 8);
+    r_config.updateText(String(frequency_dev, 0), 0, 50, 1, NORMAL, 8);
   }
 }
 
 void triggerDecrease(){
   if(_cursor == 0){
     frequency -= 0.001; radio_R.setFrequencyMHz(frequency);
-    rolljam.updateText(String(frequency, 3), 0, 0, 1, NORMAL, 8);
+    r_config.updateText(String(frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(_cursor == 1){
     fixedThreshold--; radio_R.setFixedThreshold(fixedThreshold); 
-    rolljam.updateText(String(fixedThreshold), 0, 10, 1, NORMAL, 8);
+    r_config.updateText(String(fixedThreshold), 0, 10, 1, NORMAL, 8);
   }
   else if(_cursor == 2){
     bw_cursor--; if(bw_cursor < 0) bw_cursor = 22;
     radio_R.setBandwidth(bandwidth[bw_cursor]);
-    rolljam.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
+    r_config.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
   }
   else if(_cursor == 3){
     lna_cursor--; if(lna_cursor < 0) lna_cursor = 6;
     radio_R.writeReg(REG_LNA, RF_LNA_ZIN_50 | lna_gain[lna_cursor]);
-    rolljam.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
+    r_config.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
   }
   else if(_cursor == 4){
     mod_cursor--; if(mod_cursor < 0) mod_cursor = 1;
     radio_R.writeReg(REG_DATAMODUL, modulation[mod_cursor]);
-    rolljam.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
+    r_config.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
   }
   if(_cursor == 5){
     if(frequency_dev > 1500) frequency_dev -= 500;
     radio_R.setFrequencyDev(frequency_dev);
-    rolljam.updateText(String(frequency_dev), 0, 50, 1, NORMAL, 8);
+    r_config.updateText(String(frequency_dev, 0), 0, 50, 1, NORMAL, 8);
   }
 }
