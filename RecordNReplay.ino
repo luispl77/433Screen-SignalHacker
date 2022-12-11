@@ -58,6 +58,8 @@ void recordReplay(){
     if(rec_rep.clickDOWN()){
       ledOn();
       clear_ram();
+      i = 0;
+      rec_rep.updateText(String(i), 45, 0, 1, NORMAL, 8); //update pulses
       delay(200);
       ledOff();
 

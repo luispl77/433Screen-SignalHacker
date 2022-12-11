@@ -27,6 +27,7 @@ void receiverConfig(){
   r_config.drawText(lg[lna_cursor], 0, 30, 1, NORMAL);
   r_config.drawText(mod[mod_cursor], 0, 40, 1, NORMAL);
   r_config.drawText(String(frequency_dev, 0), 0, 50, 1, NORMAL);
+  r_config.drawText("<", 50, 10*_cursor, 1, NORMAL);
   while(1){
     if(r_config.clickA()){
       changeCursor();
