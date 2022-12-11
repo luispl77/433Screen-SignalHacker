@@ -60,8 +60,6 @@ void setup() {
   radio_T.initialize();
   radio_R.setMode(RF69OOK_MODE_STANDBY);
   radio_T.setMode(RF69OOK_MODE_STANDBY);
-  //radio_T.initializeTransmit(10, PA_MODE_PA1_PA2);
-  //radio_T.send(1);
   main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
 }
 
