@@ -23,3 +23,8 @@ Software features and modes (currently in development):
 
 <img width="270" alt="top" src="https://user-images.githubusercontent.com/81360502/200019548-0850a8f0-5479-41c4-92ea-47d86335f9c2.png">
 <img width="268" alt="bottom" src="https://user-images.githubusercontent.com/81360502/200019563-1e905f63-8e2c-447e-a91d-a367f3701991.png">
+
+
+Resources:
+https://github.com/UberGuidoZ/Flipper/tree/main/Sub-GHz/Vehicles/Tesla/BEST_PORT_OPENER
+https://www.reddit.com/r/flipperzero/comments/thglag/am250_am650_unlocks_teslas_charging_ports_credit/
