@@ -25,3 +25,26 @@ void graphicAnalyser(){
     }
   }
 }
+
+void ledAnalyser(){
+  int x = 0;
+  unselect_T();
+  unselect_SD();
+  radio_R.initializeReceive();
+  digitalWrite(2, HIGH); delay(200); digitalWrite(2, LOW); delay(200); 
+  led_analyser.drawText("RF output -> On-Board LED.", 0, 0, 1, NORMAL);
+  led_analyser.drawText("B: exit", 10, 50, 1, NORMAL);
+  delay(200);
+  while(1){
+    if(digitalRead(DIO2_R) == 1){
+      digitalWrite(2, HIGH);
+    }
+    else{
+      digitalWrite(2, LOW);
+    }
+    if(led_analyser.clickB()){
+       digitalWrite(2, LOW);
+      break;
+    }
+  }
+}

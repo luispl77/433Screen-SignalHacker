@@ -38,9 +38,10 @@ UI1306LPL custom(NULL, MODE_MENU, "Car Mode", &car_mode, "Speed Config", &speed_
 RFM69LPL radio_R(R_CS, DIO2_R, true);
 RFM69LPL radio_T(T_CS, DIO2_T, true);
 
+UI1306LPL led_analyser(&ledAnalyser, MODE_FUNCTION);
 UI1306LPL spc_analyser(&spectrumAnalyser, MODE_FUNCTION);
 UI1306LPL gx_analyser(&graphicAnalyser, MODE_FUNCTION);
-UI1306LPL sig_analyser(NULL, MODE_MENU, "Graphic Analyser", &gx_analyser, "Spectrum Analyser", &spc_analyser);
+UI1306LPL sig_analyser(NULL, MODE_MENU, "Graphic Analyser", &gx_analyser, "Spectrum Analyser", &spc_analyser, "LED Analyser", &led_analyser);
 
 UI1306LPL send_cst(&sendConstantWave, MODE_FUNCTION);
 UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
@@ -48,7 +49,7 @@ UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
 UI1306LPL rec_rep(&recordReplay, MODE_FUNCTION);
 UI1306LPL t_config(&transmitterConfig, MODE_FUNCTION);
 UI1306LPL r_config(&receiverConfig, MODE_FUNCTION);
-UI1306LPL ReplayRecord(NULL, MODE_MENU, "Receiver Config", &r_config, "Blocker Config", &t_config, "Record/Replay", &rec_rep);
+UI1306LPL ReplayRecord(NULL, MODE_MENU, "Receiver Config", &r_config, "Blocker Config", &t_config, "Record/Replay", &rec_rep, "LED Analyser", &led_analyser);
 
 UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Signal Analyser", &sig_analyser, "Custom Modes", &custom, "Replay/Store", &ReplayRecord);
 
