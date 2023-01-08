@@ -65,14 +65,16 @@ void setup() {
   pinMode(R_CS, OUTPUT);
   pinMode(T_CS, OUTPUT);
   pinMode(SD_CS, OUTPUT);
+  pinMode(BUILTIN_LED, OUTPUT);
   digitalWrite(SD_CS, HIGH);
   SPI.begin();
-  pinMode(BUILTIN_LED, OUTPUT);
   radio_R.writeReg(REG_OPMODE, RF_OPMODE_SEQUENCER_OFF | RF_OPMODE_LISTEN_OFF | RF_OPMODE_STANDBY);
   radio_T.writeReg(REG_OPMODE, RF_OPMODE_SEQUENCER_OFF | RF_OPMODE_LISTEN_OFF | RF_OPMODE_STANDBY);
   radio_R.readAllRegs();
   radio_T.readAllRegs();
   main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
+  showBattery();
+  delay(1000);
 }
 
 void loop() {
