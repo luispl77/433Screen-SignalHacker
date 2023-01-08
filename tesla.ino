@@ -3,9 +3,8 @@ int am650[1296] = {9175, 131, 1119, 165, 97, 297, 163, 99, 99, 97, 297, 295, 491
 
 void teslaMode(){
   int i = 0;
-  unselect_T();
-  unselect_SD();
-  radio_R.initializeTransmit(20, PA_MODE_PA1_PA2_20dbm, OCP_OFF); //max power
+  radio_T.setTransmitPower(20, PA_MODE_PA1_PA2_20dbm, OCP_OFF); //max power
+  radio_T.initializeTransmit();
   tesla.drawText("UP: edited AM270", 30, 45, 1, NORMAL);
   tesla.drawText("DOWN: full AM650", 30, 55, 1, NORMAL);
   delay(400);
@@ -16,9 +15,9 @@ void teslaMode(){
     if(tesla.clickUP()){
       i = 0; ledOn();
       while(tesla.clickUP() && i <= 1194){ //total of 1196 numbers, minus 2
-        radio_R.send(1);
+        radio_T.send(1);
         delayMicroseconds(am270[i]);
-        radio_R.send(0);
+        radio_T.send(0);
         delayMicroseconds(am270[i+1]);
         i += 2;
       }
@@ -28,9 +27,9 @@ void teslaMode(){
     if(tesla.clickDOWN()){
       i = 0; ledOn();
       while(tesla.clickDOWN() && i <= 1294){ //total of 1296 numbers, minus 2
-        radio_R.send(1);
+        radio_T.send(1);
         smartdelay(am650[i]);
-        radio_R.send(0);
+        radio_T.send(0);
         smartdelay(am650[i+1]);
         i += 2;
       }
@@ -38,7 +37,7 @@ void teslaMode(){
       delay(200);
     }
     if(tesla.clickB()){
-      radio_R.transmitEnd();
+      radio_T.standby();
       break;
     }
   }

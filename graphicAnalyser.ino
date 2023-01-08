@@ -1,7 +1,5 @@
 void graphicAnalyser(){
   int x = 0;
-  unselect_T();
-  unselect_SD();
   radio_R.initializeReceive();
   delay(200);
   while(1){

@@ -6,11 +6,10 @@ void sendConstantWave(){
   send_cst.drawText("frequency:", 0, 20, 1, INVERS); send_cst.drawText(String(frequency, 3), 63, 20, 1, NORMAL);
   send_cst.drawText("dbm: ", 0, 40, 1, NORMAL); send_cst.drawText(String(dbm), 27, 40, 1, NORMAL);
   send_cst.drawText("SEND", 80, 50, 1, NORMAL);
-  unselect_R(); unselect_SD(); //avoid SPI interference for transmitter
-  radio_T.initialize(); Serial.println("initialization done.");
   radio_T.setModulationType(MOD_OOK);
   radio_T.setFrequencyMHz(frequency); Serial.println("frequency set.");
-  radio_T.initializeTransmit(dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+  radio_T.setTransmitPower(dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+  radio_T.initializeTransmit();
   delay(200);
   while(1){
     if(send_cst.clickA()){
@@ -28,7 +27,7 @@ void sendConstantWave(){
     if(send_cst.clickB()){
       ledOff();
       radio_T.send(0);
-      radio_T.transmitEnd();
+      radio_T.standby();
       break;
     }
   }
@@ -40,7 +39,7 @@ void increase_dbm_frequency(int * scw_cursor, float *frequency, int* dbm){
     Serial.println(*frequency); send_cst.updateText(String(*frequency, 3), 63, 20, 1, NORMAL, 8);
   }
   if(*dbm < 20 && *scw_cursor == 1){
-    (*dbm)++; radio_T.initializeTransmit(*dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+    (*dbm)++; radio_T.setTransmitPower(*dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
     Serial.println(*dbm); send_cst.updateText(String(*dbm), 27, 40, 1, NORMAL, 2);
   }
   if(*scw_cursor == 2){
@@ -55,7 +54,7 @@ void decrease_dbm_frequency(int * scw_cursor, float *frequency, int* dbm){
     Serial.println(*frequency); send_cst.updateText(String(*frequency, 3), 63, 20, 1, NORMAL, 8);
   }
   if(*dbm > 5 && *scw_cursor == 1){
-    (*dbm)--; radio_T.initializeTransmit(*dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+    (*dbm)--; radio_T.setTransmitPower(*dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
     Serial.println(*dbm); send_cst.updateText(String(*dbm), 27, 40, 1, NORMAL, 2);
   }
   if(*scw_cursor == 2){

@@ -35,21 +35,24 @@ UI1306LPL tesla(&teslaMode, MODE_FUNCTION);
 UI1306LPL custom(NULL, MODE_MENU, "Car Mode", &car_mode, "Speed Config", &speed_config, "Tesla Raw", &tesla, "Tesla Perfect", &tsla);
 ///////////////
 
-RFM69LPL radio_R(R_CS, DIO2_R, true);
-RFM69LPL radio_T(T_CS, DIO2_T, true);
+RFM69LPL radio_R(R_CS, DIO2_R, true); //is a receiver - > true
+RFM69LPL radio_T(T_CS, DIO2_T, false); //is a receiver - > false
+
 
 UI1306LPL led_analyser(&ledAnalyser, MODE_FUNCTION);
-UI1306LPL spc_analyser(&spectrumAnalyser, MODE_FUNCTION);
-UI1306LPL gx_analyser(&graphicAnalyser, MODE_FUNCTION);
-UI1306LPL sig_analyser(NULL, MODE_MENU, "Graphic Analyser", &gx_analyser, "Spectrum Analyser", &spc_analyser, "LED Analyser", &led_analyser);
-
-UI1306LPL send_cst(&sendConstantWave, MODE_FUNCTION);
-UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
-
 UI1306LPL rec_rep(&recordReplay, MODE_FUNCTION);
 UI1306LPL t_config(&transmitterConfig, MODE_FUNCTION);
 UI1306LPL r_config(&receiverConfig, MODE_FUNCTION);
 UI1306LPL ReplayRecord(NULL, MODE_MENU, "Receiver Config", &r_config, "Blocker Config", &t_config, "Record/Replay", &rec_rep, "LED Analyser", &led_analyser);
+
+UI1306LPL spc_analyser(&spectrumAnalyser, MODE_FUNCTION);
+UI1306LPL gx_analyser(&graphicAnalyser, MODE_FUNCTION);
+UI1306LPL sig_analyser(NULL, MODE_MENU, "Graphic Analyser", &gx_analyser, "Spectrum Analyser", &spc_analyser, "LED Analyser", &led_analyser, "Receiver Config", &r_config);
+
+UI1306LPL send_cst(&sendConstantWave, MODE_FUNCTION);
+UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
+
+
 
 UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Signal Analyser", &sig_analyser, "Custom Modes", &custom, "Replay/Store", &ReplayRecord);
 
@@ -59,11 +62,16 @@ UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Signal An
 
 void setup() {
   Serial.begin(115200);
+  pinMode(R_CS, OUTPUT);
+  pinMode(T_CS, OUTPUT);
+  pinMode(SD_CS, OUTPUT);
+  digitalWrite(SD_CS, HIGH);
+  SPI.begin();
   pinMode(BUILTIN_LED, OUTPUT);
-  radio_R.initialize();
-  radio_T.initialize();
-  radio_R.setMode(RF69OOK_MODE_STANDBY);
-  radio_T.setMode(RF69OOK_MODE_STANDBY);
+  radio_R.writeReg(REG_OPMODE, RF_OPMODE_SEQUENCER_OFF | RF_OPMODE_LISTEN_OFF | RF_OPMODE_STANDBY);
+  radio_T.writeReg(REG_OPMODE, RF_OPMODE_SEQUENCER_OFF | RF_OPMODE_LISTEN_OFF | RF_OPMODE_STANDBY);
+  radio_R.readAllRegs();
+  radio_T.readAllRegs();
   main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
 }
 

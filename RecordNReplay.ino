@@ -1,11 +1,10 @@
  int ram = 10000;
  unsigned long readings[10000];
+ 
 void recordReplay(){
   unsigned long previous_micros;
   int i = 0; int j = 0;
   int nr_samples = 0;
-  unselect_T();
-  unselect_SD();
   rec_rep.drawText("PULSES:", 0, 0, 1, NORMAL);
   rec_rep.drawText("A: record", 60, 35, 1, NORMAL);
   rec_rep.drawText("UP: replay", 60, 45, 1, NORMAL);
@@ -14,7 +13,7 @@ void recordReplay(){
   
   while(1){
     if(rec_rep.clickA() && i < ram){
-      radio_R.receiveBegin(); rec_rep.updateText("REC..", 0, 40, 1, NORMAL, 8);
+      radio_R.initializeReceive(); rec_rep.updateText("REC..", 0, 40, 1, NORMAL, 8);
       ledOn(); i = 0;
       while(rec_rep.clickA() && i < ram){
         if(digitalRead(DIO2_R) == HIGH){
@@ -31,9 +30,9 @@ void recordReplay(){
       delay(100);
       ledOff();
       i = 0;
-      radio_R.receiveEnd();
-      radio_R.initializeTransmit(15, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
-      radio_R.transmitBegin();
+      radio_R.standby();
+      radio_R.setTransmitPower(15, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+      radio_R.initializeTransmit();
       rec_rep.updateText("      ", 0, 40, 1, NORMAL, 8);
     }
 
@@ -66,7 +65,7 @@ void recordReplay(){
     }
     
     if(rec_rep.clickB()){
-      radio_R.transmitEnd();
+      radio_R.standby();
       break;
     }
   }

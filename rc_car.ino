@@ -74,10 +74,9 @@ void pulse(int duration) {
 }
 
 void initialize_radio_car(){
-  unselect_R(); unselect_SD();
-  radio_T.initialize();
   radio_T.setMode(RF69OOK_MODE_STANDBY);
   radio_T.setModulationType(MOD_OOK);
   radio_T.setFrequencyMHz(frequency_ISM);
-  radio_T.initializeTransmit(21, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+  radio_T.setTransmitPower(21, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+  radio_T.initializeTransmit();
 }
