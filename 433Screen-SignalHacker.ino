@@ -43,7 +43,7 @@ UI1306LPL led_analyser(&ledAnalyser, MODE_FUNCTION);
 UI1306LPL rec_rep(&recordReplay, MODE_FUNCTION);
 UI1306LPL t_config(&transmitterConfig, MODE_FUNCTION);
 UI1306LPL r_config(&receiverConfig, MODE_FUNCTION);
-UI1306LPL ReplayRecord(NULL, MODE_MENU, "Receiver Config", &r_config, "Blocker Config", &t_config, "Record/Replay", &rec_rep, "LED Analyser", &led_analyser);
+UI1306LPL ReplayRecord(NULL, MODE_MENU, "Receiver Config", &r_config, "Blocker Config", &t_config, "Record/Replay", &rec_rep, "RSSI Viewer", &led_analyser);
 
 UI1306LPL spc_analyser(&spectrumAnalyser, MODE_FUNCTION);
 UI1306LPL gx_analyser(&graphicAnalyser, MODE_FUNCTION);

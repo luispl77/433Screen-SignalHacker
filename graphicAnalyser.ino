@@ -30,8 +30,8 @@ void ledAnalyser(){
   unselect_SD();
   radio_R.initializeReceive();
   digitalWrite(2, HIGH); delay(200); digitalWrite(2, LOW); delay(200); 
-  led_analyser.drawText("RF output -> On-Board LED.", 0, 0, 1, NORMAL);
   led_analyser.drawText("B: exit", 10, 50, 1, NORMAL);
+  led_analyser.updateText(String(read_rssi_threshold()), 0, 30, 1, NORMAL, 4);
   delay(200);
   while(1){
     if(digitalRead(DIO2_R) == 1){
@@ -40,9 +40,21 @@ void ledAnalyser(){
     else{
       digitalWrite(2, LOW);
     }
+    
+    led_analyser.updateText(String(read_rssi()), 0, 10, 1, NORMAL, 4);
+    
     if(led_analyser.clickB()){
        digitalWrite(2, LOW);
       break;
     }
   }
+}
+
+byte read_rssi(){
+      radio_R.writeReg(REG_RSSICONFIG, 0x01); //trigger read
+      return radio_R.readReg(REG_RSSIVALUE);
+}
+
+byte read_rssi_threshold(){
+      return radio_R.readReg(REG_RSSITHRESH);
 }

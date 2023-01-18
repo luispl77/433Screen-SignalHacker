@@ -48,7 +48,3 @@ void spectrumAnalyser(){ //sweep 425-450MHz and find highest frequency.
     }
   }
 }
-
-byte read_rssi(){
-      return radio_R.readReg(REG_RSSIVALUE);
-}
