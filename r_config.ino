@@ -9,7 +9,7 @@
   
   byte modulation[2] = {RF_DATAMODUL_DATAMODE_CONTINUOUSNOBSYNC | RF_DATAMODUL_MODULATIONTYPE_OOK | RF_DATAMODUL_MODULATIONSHAPING_00,
                         RF_DATAMODUL_DATAMODE_CONTINUOUSNOBSYNC | RF_DATAMODUL_MODULATIONTYPE_FSK| RF_DATAMODUL_MODULATIONSHAPING_00};
-  String mod[2] = {"OOK", "FSK"};
+  String mod[2] = {"FSK", "OOK"};
   
   int bw_cursor = 18;
   int lna_cursor = 1;
@@ -21,11 +21,11 @@
   int fixedThreshold = 10;
 void receiverConfig(){
   r_config.drawText("A: scroll", 72, 50, 1, NORMAL);
-  r_config.drawText(String(frequency, 3), 0, 0, 1, NORMAL);
-  r_config.drawText(String(fixedThreshold), 0, 10, 1, NORMAL);
-  r_config.drawText(String(bw[bw_cursor]), 0, 20, 1, NORMAL);
-  r_config.drawText(lg[lna_cursor], 0, 30, 1, NORMAL);
-  r_config.drawText(mod[mod_cursor], 0, 40, 1, NORMAL);
+  r_config.drawText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL);
+  r_config.drawText(String(radio_R._fixed_threshold), 0, 10, 1, NORMAL);
+  r_config.drawText("[BW]", 0, 20, 1, NORMAL);
+  r_config.drawText(lg[radio_R._lna_gain], 0, 30, 1, NORMAL);
+  r_config.drawText(mod[radio_R._modulation], 0, 40, 1, NORMAL);
   r_config.drawText(String(frequency_dev, 0), 0, 50, 1, NORMAL);
   r_config.drawText("<", 50, 10*_cursor, 1, NORMAL);
   while(1){
@@ -56,26 +56,26 @@ void changeCursor(){
 
 void triggerIncrease(){
   if(_cursor == 0){
-    frequency += 0.001; radio_R.setFrequencyMHz(frequency);
-    r_config.updateText(String(frequency, 3), 0, 0, 1, NORMAL, 8);
+    radio_R._frequency += 0.001;
+    r_config.updateText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(_cursor == 1){
-    fixedThreshold++; radio_R.setFixedThreshold(fixedThreshold); 
-    r_config.updateText(String(fixedThreshold), 0, 10, 1, NORMAL, 8);
+    radio_R._fixed_threshold++; 
+    r_config.updateText(String(radio_R._fixed_threshold), 0, 10, 1, NORMAL, 8);
   }
   else if(_cursor == 2){
     bw_cursor++; if(bw_cursor > 22) bw_cursor = 0;
-    radio_R.setBandwidth(bandwidth[bw_cursor]);
+    radio_R._bandwidth = bandwidth[bw_cursor];
     r_config.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
   }
   else if(_cursor == 3){
     lna_cursor++; if(lna_cursor > 6) lna_cursor = 0;
-    radio_R.writeReg(REG_LNA, RF_LNA_ZIN_50 | lna_gain[lna_cursor]);
+    radio_R._lna_gain = lna_gain[lna_cursor];
     r_config.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
   }
   else if(_cursor == 4){
     mod_cursor++; if(mod_cursor > 1) mod_cursor = 0;
-    radio_R.writeReg(REG_DATAMODUL, modulation[mod_cursor]);
+    radio_R._modulation = modulation[mod_cursor];
     r_config.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
   }
   if(_cursor == 5){
@@ -87,26 +87,26 @@ void triggerIncrease(){
 
 void triggerDecrease(){
   if(_cursor == 0){
-    frequency -= 0.001; radio_R.setFrequencyMHz(frequency);
-    r_config.updateText(String(frequency, 3), 0, 0, 1, NORMAL, 8);
+    radio_R._frequency += 0.001;
+    r_config.updateText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(_cursor == 1){
-    fixedThreshold--; radio_R.setFixedThreshold(fixedThreshold); 
-    r_config.updateText(String(fixedThreshold), 0, 10, 1, NORMAL, 8);
+    radio_R._fixed_threshold--; 
+    r_config.updateText(String(radio_R._fixed_threshold), 0, 10, 1, NORMAL, 8);
   }
   else if(_cursor == 2){
     bw_cursor--; if(bw_cursor < 0) bw_cursor = 22;
-    radio_R.setBandwidth(bandwidth[bw_cursor]);
+    radio_R._bandwidth = bandwidth[bw_cursor];
     r_config.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
   }
   else if(_cursor == 3){
     lna_cursor--; if(lna_cursor < 0) lna_cursor = 6;
-    radio_R.writeReg(REG_LNA, RF_LNA_ZIN_50 | lna_gain[lna_cursor]);
+    radio_R._lna_gain = lna_gain[lna_cursor];
     r_config.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
   }
   else if(_cursor == 4){
     mod_cursor--; if(mod_cursor < 0) mod_cursor = 1;
-    radio_R.writeReg(REG_DATAMODUL, modulation[mod_cursor]);
+    radio_R._modulation = modulation[mod_cursor];
     r_config.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
   }
   if(_cursor == 5){
