@@ -87,7 +87,7 @@ void triggerIncrease(){
 
 void triggerDecrease(){
   if(_cursor == 0){
-    radio_R._frequency += 0.001;
+    radio_R._frequency -= 0.001;
     r_config.updateText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(_cursor == 1){
