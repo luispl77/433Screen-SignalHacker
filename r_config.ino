@@ -23,7 +23,7 @@ void receiverConfig(){
   r_config.drawText("A: scroll", 72, 50, 1, NORMAL);
   r_config.drawText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL);
   r_config.drawText(String(radio_R._fixed_threshold), 0, 10, 1, NORMAL);
-  r_config.drawText("[BW]", 0, 20, 1, NORMAL);
+  r_config.drawText("BANDWIDTH", 0, 20, 1, NORMAL);
   r_config.drawText(lg[radio_R._lna_gain], 0, 30, 1, NORMAL);
   r_config.drawText(mod[radio_R._modulation], 0, 40, 1, NORMAL);
   r_config.drawText(String(frequency_dev, 0), 0, 50, 1, NORMAL);
