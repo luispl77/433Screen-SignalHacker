@@ -29,10 +29,11 @@ UI1306LPL speed_100(&speed100, MODE_FUNCTION);
 UI1306LPL speed_config(NULL, MODE_MENU, "PWM: 190", &speed_60, "PWM: 200", &speed_70, "PWM: 210", &speed_80, "PWM: 230", &speed_90, "PWM: 255", &speed_100);
 
 UI1306LPL car_mode(&carMode, MODE_FUNCTION);
+UI1306LPL mac_mode(&macMode, MODE_FUNCTION);
 
 UI1306LPL tsla(&teslaPerfect, MODE_FUNCTION);
 UI1306LPL tesla(&teslaMode, MODE_FUNCTION);
-UI1306LPL custom(NULL, MODE_MENU, "Car Mode", &car_mode, "Speed Config", &speed_config, "Tesla Raw", &tesla, "Tesla Perfect", &tsla);
+UI1306LPL custom(NULL, MODE_MENU, "Car Mode", &car_mode, "Speed Config", &speed_config, "Tesla Raw", &tesla, "Tesla Perfect", &tsla, "MAC Mode", &mac_mode);
 ///////////////
 
 RFM69LPL radio_R(R_CS, DIO2_R, true); //is a receiver - > true

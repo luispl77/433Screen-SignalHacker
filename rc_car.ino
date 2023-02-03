@@ -67,16 +67,21 @@ void speed100(){
 }
 
 void pulse(int duration) {
-  digitalWrite(DIO2_T, HIGH);
-  delayMicroseconds(duration);
-  digitalWrite(DIO2_T, LOW);
-  delayMicroseconds(duration/10);
+  digitalWrite(DIO2_R, LOW);
+  delayMicroseconds(duration); // % 1000); delay(duration / 1000);
+  digitalWrite(DIO2_R, HIGH);
+  delayMicroseconds(duration); // % 1000); delay(duration / 1000);
+
+  digitalWrite(DIO2_R, LOW);
+  delayMicroseconds(duration); // % 1000); delay(duration / 1000);
+  digitalWrite(DIO2_R, HIGH);
+  delayMicroseconds(duration); // % 1000); delay(duration / 1000);
 }
 
 void initialize_radio_car(){
-  radio_T.setMode(RF69OOK_MODE_STANDBY);
-  radio_T.setModulationType(MOD_OOK);
-  radio_T.setFrequencyMHz(frequency_ISM);
-  radio_T.setTransmitPower(21, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
-  radio_T.initializeTransmit();
+  radio_R.setMode(RF69OOK_MODE_STANDBY);
+  radio_R.setFrequencyMHz(frequency_ISM);
+  radio_R.setTransmitPower(21, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+  radio_R.initializeTransmit();
+  radio_R.setModulationType(MOD_FSK); radio_R.setFrequencyDev(10000);
 }
