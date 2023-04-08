@@ -20,7 +20,7 @@ Software features and modes (currently in development):
 - Spectrum analyser mode: sweeps 415-510Mhz and finds frequency with strongest RSSI.
 
 ## Hardware
-
+EasyEDA schematic and layout: https://oshwlab.com/maarnotto/lpl_esp32signalhacker
 <img width="270" alt="top" src="https://user-images.githubusercontent.com/81360502/200019548-0850a8f0-5479-41c4-92ea-47d86335f9c2.png">
 <img width="268" alt="bottom" src="https://user-images.githubusercontent.com/81360502/200019563-1e905f63-8e2c-447e-a91d-a367f3701991.png">
 
