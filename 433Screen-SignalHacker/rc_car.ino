@@ -82,6 +82,6 @@ void initialize_radio_car(){
   radio_R.setMode(RF69OOK_MODE_STANDBY);
   radio_R.setFrequencyMHz(frequency_ISM);
   radio_R.setTransmitPower(21, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
-  radio_R.initializeTransmit();
+  radio_R.txBegin();
   radio_R.setModulationType(MOD_FSK); radio_R.setFrequencyDev(10000);
 }

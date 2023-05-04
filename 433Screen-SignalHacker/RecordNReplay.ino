@@ -13,7 +13,7 @@ void recordReplay(){
   
   while(1){
     if(rec_rep.clickA() && i < ram){
-      radio_R.initializeReceive(); rec_rep.updateText("REC..", 0, 40, 1, NORMAL, 8);
+      radio_R.rxBegin(); rec_rep.updateText("REC..", 0, 40, 1, NORMAL, 8);
       ledOn(); i = 0;
       while(rec_rep.clickA() && i < ram){
         if(digitalRead(DIO2_R) == HIGH){
@@ -32,7 +32,7 @@ void recordReplay(){
       i = 0;
       radio_R.standby();
       radio_R.setTransmitPower(15, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
-      radio_R.initializeTransmit();
+      radio_R.txBegin();
       rec_rep.updateText("      ", 0, 40, 1, NORMAL, 8);
     }
 

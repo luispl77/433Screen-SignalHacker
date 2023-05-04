@@ -1,6 +1,6 @@
 void graphicAnalyser(){
   int x = 0;
-  radio_R.initializeReceive();
+  radio_R.rxBegin();
   delay(200);
   while(1){
     //gx_analyser.updateText(String(digitalRead(DIO2_R)), 0, 0, 1, NORMAL, 1);
@@ -26,9 +26,8 @@ void graphicAnalyser(){
 
 void ledAnalyser(){
   int x = 0;
-  unselect_T();
   unselect_SD();
-  radio_R.initializeReceive();
+  radio_R.rxBegin();
   digitalWrite(2, HIGH); delay(200); digitalWrite(2, LOW); delay(200); 
   led_analyser.drawText("B: exit", 10, 50, 1, NORMAL);
   led_analyser.updateText(String(read_rssi_threshold()), 0, 30, 1, NORMAL, 4);

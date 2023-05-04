@@ -9,7 +9,7 @@ void sendConstantWave(){
   radio_T.setModulationType(MOD_OOK);
   radio_T.setFrequencyMHz(frequency); Serial.println("frequency set.");
   radio_T.setTransmitPower(dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
-  radio_T.initializeTransmit();
+  radio_T.txBegin();
   delay(200);
   while(1){
     if(send_cst.clickA()){

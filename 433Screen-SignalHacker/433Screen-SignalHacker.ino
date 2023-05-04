@@ -31,13 +31,12 @@ UI1306LPL speed_config(NULL, MODE_MENU, "PWM: 190", &speed_60, "PWM: 200", &spee
 UI1306LPL car_mode(&carMode, MODE_FUNCTION);
 UI1306LPL mac_mode(&macMode, MODE_FUNCTION);
 
-UI1306LPL tsla(&teslaPerfect, MODE_FUNCTION);
-UI1306LPL tesla(&teslaMode, MODE_FUNCTION);
-UI1306LPL custom(NULL, MODE_MENU, "Car Mode", &car_mode, "Speed Config", &speed_config, "Tesla Raw", &tesla, "Tesla Perfect", &tsla, "MAC Mode", &mac_mode);
+UI1306LPL tesla(&sendTesla, MODE_FUNCTION);
+UI1306LPL custom(NULL, MODE_MENU, "Car Mode", &car_mode, "Speed Config", &speed_config, "Tesla", &tesla, "MAC Mode", &mac_mode);
 ///////////////
 
-RFM69LPL radio_R(R_CS, DIO2_R, true); //is a receiver - > true
-RFM69LPL radio_T(T_CS, DIO2_T, false); //is a receiver - > false
+RFM69LPL radio_R(R_CS, DIO2_R); 
+RFM69LPL radio_T(T_CS, DIO2_T);
 
 
 UI1306LPL led_analyser(&ledAnalyser, MODE_FUNCTION);
@@ -58,24 +57,18 @@ UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
 UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Signal Analyser", &sig_analyser, "Custom Modes", &custom, "Replay/Store", &ReplayRecord);
 
 
-
-
-
 void setup() {
   Serial.begin(115200);
-  pinMode(R_CS, OUTPUT);
-  pinMode(T_CS, OUTPUT);
-  pinMode(SD_CS, OUTPUT);
   pinMode(BUILTIN_LED, OUTPUT);
-  digitalWrite(SD_CS, HIGH);
-  SPI.begin();
-  radio_R.writeReg(REG_OPMODE, RF_OPMODE_SEQUENCER_OFF | RF_OPMODE_LISTEN_OFF | RF_OPMODE_STANDBY);
-  radio_T.writeReg(REG_OPMODE, RF_OPMODE_SEQUENCER_OFF | RF_OPMODE_LISTEN_OFF | RF_OPMODE_STANDBY);
-  radio_R.readAllRegs();
+  unselect_SD();
+
+  radio_T.unselect(); // avoid interference
+  radio_R.init();
+  radio_T.init();
   radio_T.readAllRegs();
+  radio_R.readAllRegs();
   main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
-  showBattery();
-  delay(1000);
+  //showBattery();
 }
 
 void loop() {

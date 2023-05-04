@@ -1,8 +1,6 @@
 void spectrumAnalyser(){ //sweep 425-450MHz and find highest frequency.
-  unselect_T();
   unselect_SD();
-  radio_R.initializeReceive();
-  unselect_R(); unselect_SD(); 
+  radio_R.rxBegin();
   delay(200);
   float current_frequency = 425.000; //starting frequency
   float lower_limit = 425.000;
