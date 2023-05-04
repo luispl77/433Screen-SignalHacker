@@ -28,6 +28,5 @@ EasyEDA schematic and layout: https://oshwlab.com/maarnotto/lpl_esp32signalhacke
 
 
 
-Resources:
-https://github.com/UberGuidoZ/Flipper/tree/main/Sub-GHz/Vehicles/Tesla/BEST_PORT_OPENER
-https://www.reddit.com/r/flipperzero/comments/thglag/am250_am650_unlocks_teslas_charging_ports_credit/
+
+![WhatsApp Image 2023-05-05 at 00 24 34](https://user-images.githubusercontent.com/81360502/236350820-bab8f90a-2e23-47e5-a12c-8dca480eee96.jpeg)
