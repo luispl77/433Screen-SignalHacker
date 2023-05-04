@@ -3,6 +3,7 @@ void sendTesla(){
   int i = 0;
   radio_T.setTransmitPower(20, PA_MODE_PA1_PA2_20dbm, OCP_OFF); //max power
   radio_T.txBegin();
+  tesla.drawText("TESLA", 0, 0, 1, NORMAL);
   tesla.drawText("UP: send", 0, 45, 1, NORMAL);
   tesla.drawText("B: exit", 0, 55, 1, NORMAL);
   delay(400);
