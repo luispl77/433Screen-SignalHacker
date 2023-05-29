@@ -35,14 +35,14 @@ void receiverConfig(){
     }
     if(r_config.clickUP()){
       triggerIncrease();
-      delay(200);
+      delay(100);
     }
     if(r_config.clickDOWN()){
       triggerDecrease();
-      delay(200);
+      delay(100);
     }
     if(r_config.clickB()){
-
+      radio_R.standby();
       break;
     }
   }
@@ -56,26 +56,26 @@ void changeCursor(){
 
 void triggerIncrease(){
   if(_cursor == 0){
-    radio_R._frequency += 0.001;
+    radio_R.setFrequencyMHz(radio_R._frequency + 0.001); 
     r_config.updateText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(_cursor == 1){
-    radio_R._fixed_threshold++; 
+    radio_R.setFixedThreshold(radio_R._fixed_threshold + 1);
     r_config.updateText(String(radio_R._fixed_threshold), 0, 10, 1, NORMAL, 8);
   }
   else if(_cursor == 2){
     bw_cursor++; if(bw_cursor > 22) bw_cursor = 0;
-    radio_R._bandwidth = bandwidth[bw_cursor];
+    radio_R.setBandwidth(bandwidth[bw_cursor]);
     r_config.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
   }
   else if(_cursor == 3){
     lna_cursor++; if(lna_cursor > 6) lna_cursor = 0;
-    radio_R._lna_gain = lna_gain[lna_cursor];
+    radio_R.setLNAGain(lna_gain[lna_cursor]);
     r_config.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
   }
   else if(_cursor == 4){
     mod_cursor++; if(mod_cursor > 1) mod_cursor = 0;
-    radio_R._modulation = modulation[mod_cursor];
+    radio_R.setModulationType(modulation[mod_cursor]);
     r_config.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
   }
   if(_cursor == 5){
@@ -87,26 +87,26 @@ void triggerIncrease(){
 
 void triggerDecrease(){
   if(_cursor == 0){
-    radio_R._frequency -= 0.001;
+    radio_R.setFrequencyMHz(radio_R._frequency - 0.001);
     r_config.updateText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(_cursor == 1){
-    radio_R._fixed_threshold--; 
+    radio_R.setFixedThreshold(radio_R._fixed_threshold - 1); 
     r_config.updateText(String(radio_R._fixed_threshold), 0, 10, 1, NORMAL, 8);
   }
   else if(_cursor == 2){
     bw_cursor--; if(bw_cursor < 0) bw_cursor = 22;
-    radio_R._bandwidth = bandwidth[bw_cursor];
+    radio_R.setBandwidth(bandwidth[bw_cursor]);
     r_config.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
   }
   else if(_cursor == 3){
     lna_cursor--; if(lna_cursor < 0) lna_cursor = 6;
-    radio_R._lna_gain = lna_gain[lna_cursor];
+    radio_R.setLNAGain(lna_gain[lna_cursor]);
     r_config.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
   }
   else if(_cursor == 4){
     mod_cursor--; if(mod_cursor < 0) mod_cursor = 1;
-    radio_R._modulation = modulation[mod_cursor];
+    radio_R.setModulationType(modulation[mod_cursor]);
     r_config.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
   }
   if(_cursor == 5){

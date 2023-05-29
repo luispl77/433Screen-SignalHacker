@@ -12,6 +12,7 @@
 #define SD_CS 13
 
 #define BUILTIN_LED 2
+
 float frequency_ISM = 433.92;
 uint8_t buttonA = 27;
 uint8_t buttonB = 26;     //buttons pins. these work on ESP32, but add whichever ones you like. 

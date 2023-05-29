@@ -1,10 +1,17 @@
  int ram = 10000;
  unsigned long readings[10000];
+ int i = 0; int j = 0;
+ unsigned long previous_micros;
  
+void IRAM_ATTR isr() {
+    readings[i] = micros() - previous_micros;
+    previous_micros = micros();
+    i++;
+}
+
 void recordReplay(){
-  unsigned long previous_micros;
-  int i = 0; int j = 0;
   int nr_samples = 0;
+  clear_ram();
   rec_rep.drawText("PULSES:", 0, 0, 1, NORMAL);
   rec_rep.drawText("A: record", 60, 35, 1, NORMAL);
   rec_rep.drawText("UP: replay", 60, 45, 1, NORMAL);
@@ -15,23 +22,17 @@ void recordReplay(){
     if(rec_rep.clickA() && i < ram){
       radio_R.rxBegin(); rec_rep.updateText("REC..", 0, 40, 1, NORMAL, 8);
       ledOn(); i = 0;
-      while(rec_rep.clickA() && i < ram){
-        if(digitalRead(DIO2_R) == HIGH){
-          previous_micros = micros();
-          while(digitalRead(DIO2_R) == HIGH);
-          readings[i] = micros() - previous_micros;
-          previous_micros = micros();
-          while(digitalRead(DIO2_R) == LOW && (micros() - previous_micros) < 1000000);//one second of zeros
-          readings[i+1] = micros() - previous_micros;
-          i += 2;
-        }       
-      }
+      Serial.println("begin recording");
+      while(digitalRead(DIO2_R) == LOW); 
+      previous_micros = micros();
+      attachInterrupt(DIO2_R, isr, CHANGE);
+      while(rec_rep.clickA());
+      detachInterrupt(DIO2_R); 
       rec_rep.updateText(String(i), 45, 0, 1, NORMAL, 8); //update pulses
       delay(100);
       ledOff();
-      i = 0;
       radio_R.standby();
-      radio_R.setTransmitPower(15, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+      radio_R.setTransmitPower(20, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
       radio_R.txBegin();
       rec_rep.updateText("      ", 0, 40, 1, NORMAL, 8);
     }
