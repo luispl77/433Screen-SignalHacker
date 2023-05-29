@@ -29,3 +29,8 @@ EasyEDA schematic and layout: https://oshwlab.com/maarnotto/lpl_esp32signalhacke
 
 
 ![WhatsApp Image 2023-05-05 at 00 24 34](https://user-images.githubusercontent.com/81360502/236350820-bab8f90a-2e23-47e5-a12c-8dca480eee96.jpeg)
+
+
+## Contributing
+
+There is a lot of software that is not hard to implement, but requires time. If you are interested in contributing, send me a message, it would be appreciated. The todo list is on the wiki.
