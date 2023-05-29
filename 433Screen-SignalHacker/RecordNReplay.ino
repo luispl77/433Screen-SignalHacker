@@ -31,6 +31,7 @@ void recordReplay(){
       rec_rep.updateText(String(i), 45, 0, 1, NORMAL, 8); //update pulses
       delay(100);
       ledOff();
+      dump_ram();
       radio_R.standby();
       radio_R.setTransmitPower(20, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
       radio_R.txBegin();
@@ -43,9 +44,9 @@ void recordReplay(){
       ledOn();
       while(rec_rep.clickUP()){
         radio_R.send(1);
-        smartdelay(readings[j]);
+        delay_us(readings[j]); //ets_delay_us(10);
         radio_R.send(0);
-        smartdelay(readings[j+1]);
+        delay_us(readings[j+1]); //delayMicroseconds
         j += 2; 
         if(j >= i) j = 0; //start from begining of recorded signal
       }
@@ -74,11 +75,19 @@ void recordReplay(){
 
 
 
-void smartdelay(unsigned long micro){
-  delay(micro/1000);
-  delayMicroseconds(micro%1000);
+void delay_us(unsigned long micro){
+  unsigned long previous_micros = micros();
+  while((micros() - previous_micros) < micro);
 }
 
 void clear_ram(){
   for(int j = 0; j < ram; j++)readings[j] = 0;
+}
+
+void dump_ram() {
+  for(int j = 0; j < i; j++){
+    Serial.print(readings[j]);
+    Serial.print(' ');
+  }
+  Serial.println(); 
 }
