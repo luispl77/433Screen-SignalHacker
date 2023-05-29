@@ -76,8 +76,8 @@ void recordReplay(){
 
 
 void delay_us(unsigned long micro){
-  unsigned long previous_micros = micros();
-  while((micros() - previous_micros) < micro);
+  unsigned long prev_micros = micros();
+  while((micros() - prev_micros) < micro);
 }
 
 void clear_ram(){
