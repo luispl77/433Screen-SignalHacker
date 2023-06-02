@@ -69,6 +69,7 @@ void setup() {
   radio_T.init();
   
   initEEPROM();
+  pushEEPROMSettings(); //needed for first boot
   pullEEPROMSettings(); //pull bytes from eeprom into registers
   updateVariables(); //translate registers into variables for quick access to values
   radio_R.updateSettings(); //write all variables into registers (some settings are not saved by eeprom, and need the default value written at start)
@@ -77,7 +78,7 @@ void setup() {
   radio_R.readAllSettings(); //reads registers and translates into readable form
   
   main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
-  showBattery();
+  showBattery(); //connect 3.7V battery to pin 35 to get a voltage reading at boot
 }
 
 void loop() {
