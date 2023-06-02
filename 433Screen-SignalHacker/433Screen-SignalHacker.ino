@@ -1,6 +1,7 @@
 #include <RFM69LPL.h>
 #include <SPI.h>
 #include <RFM69LPLregisters.h>
+#include <EEPROM.h>
 
 #include <UI1306LPL.h>
 
@@ -63,13 +64,20 @@ void setup() {
   pinMode(BUILTIN_LED, OUTPUT);
   unselect_SD();
 
-  radio_T.unselect(); // avoid interference
+  radio_T.unselect(); // avoid SPI interference between radios
   radio_R.init();
   radio_T.init();
-  radio_T.readAllRegs();
-  radio_R.readAllRegs();
+  
+  initEEPROM();
+  pullEEPROMSettings(); //pull bytes from eeprom into registers
+  updateVariables(); //translate registers into variables for quick access to values
+  radio_R.updateSettings(); //write all variables into registers (some settings are not saved by eeprom, and need the default value written at start)
+  radio_T.readAllRegs(); 
+  radio_R.readAllRegs(); printEEPROMSettings();
+  radio_R.readAllSettings(); //reads registers and translates into readable form
+  
   main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
-  //showBattery();
+  showBattery();
 }
 
 void loop() {

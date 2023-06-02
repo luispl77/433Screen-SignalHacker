@@ -23,4 +23,5 @@ void showBattery(){
   main_menu.drawText("bat: ", 0, 0, 1, NORMAL);
   main_menu.drawText(String((reading/4096)*6.6 + 0.49, 2), 30, 0, 2, NORMAL);
   main_menu.drawText("V", 80, 0, 2, NORMAL);
+  delay(2000);
 }

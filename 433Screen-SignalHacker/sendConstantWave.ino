@@ -1,15 +1,13 @@
 void sendConstantWave(){
-  int dbm = 10;
+  int dbm = radio_R._dbm;
   int scw_cursor = 0;
-  float frequency = 433.920;
+  float frequency = radio_R._frequency;
   bool onOff = false;
   send_cst.drawText("frequency:", 0, 20, 1, INVERS); send_cst.drawText(String(frequency, 3), 63, 20, 1, NORMAL);
   send_cst.drawText("dbm: ", 0, 40, 1, NORMAL); send_cst.drawText(String(dbm), 27, 40, 1, NORMAL);
   send_cst.drawText("SEND", 80, 50, 1, NORMAL);
-  radio_T.setModulationType(MOD_OOK);
-  radio_T.setFrequencyMHz(frequency); Serial.println("frequency set.");
-  radio_T.setTransmitPower(dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
-  radio_T.txBegin();
+  radio_R.setTransmitPower(dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+  radio_R.txBegin();
   delay(200);
   while(1){
     if(send_cst.clickA()){
@@ -26,20 +24,21 @@ void sendConstantWave(){
     }
     if(send_cst.clickB()){
       ledOff();
-      radio_T.send(0);
-      radio_T.standby();
-      break;
+      radio_R.send(0);
+      radio_R.standby();
+      pushEEPROMSettings(); //save changes
+      break; 
     }
   }
 }
 
 void increase_dbm_frequency(int * scw_cursor, float *frequency, int* dbm){
   if(*scw_cursor == 0){
-    (*frequency) = (*frequency) + 0.001; radio_T.setFrequencyMHz(*frequency);
+    (*frequency) = (*frequency) + 0.001; radio_R.setFrequencyMHz(*frequency);
     Serial.println(*frequency); send_cst.updateText(String(*frequency, 3), 63, 20, 1, NORMAL, 8);
   }
   if(*dbm < 20 && *scw_cursor == 1){
-    (*dbm)++; radio_T.setTransmitPower(*dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+    (*dbm)++; radio_R.setTransmitPower(*dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
     Serial.println(*dbm); send_cst.updateText(String(*dbm), 27, 40, 1, NORMAL, 2);
   }
   if(*scw_cursor == 2){
@@ -50,11 +49,11 @@ void increase_dbm_frequency(int * scw_cursor, float *frequency, int* dbm){
 
 void decrease_dbm_frequency(int * scw_cursor, float *frequency, int* dbm){
   if(*scw_cursor == 0){
-    (*frequency) = (*frequency) - 0.001; radio_T.setFrequencyMHz(*frequency);
+    (*frequency) = (*frequency) - 0.001; radio_R.setFrequencyMHz(*frequency);
     Serial.println(*frequency); send_cst.updateText(String(*frequency, 3), 63, 20, 1, NORMAL, 8);
   }
   if(*dbm > 5 && *scw_cursor == 1){
-    (*dbm)--; radio_T.setTransmitPower(*dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
+    (*dbm)--; radio_R.setTransmitPower(*dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
     Serial.println(*dbm); send_cst.updateText(String(*dbm), 27, 40, 1, NORMAL, 2);
   }
   if(*scw_cursor == 2){
