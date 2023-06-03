@@ -22,37 +22,27 @@ uint8_t buttonDOWN = 33;
 
 
 //custom mode//////////
-UI1306LPL speed_60(&speed60, MODE_FUNCTION);
-UI1306LPL speed_70(&speed70, MODE_FUNCTION);
-UI1306LPL speed_80(&speed80, MODE_FUNCTION);
-UI1306LPL speed_90(&speed90, MODE_FUNCTION);
-UI1306LPL speed_100(&speed100, MODE_FUNCTION);
-
-UI1306LPL speed_config(NULL, MODE_MENU, "PWM: 190", &speed_60, "PWM: 200", &speed_70, "PWM: 210", &speed_80, "PWM: 230", &speed_90, "PWM: 255", &speed_100);
-
-UI1306LPL car_mode(&carMode, MODE_FUNCTION);
-UI1306LPL mac_mode(&macMode, MODE_FUNCTION);
 
 UI1306LPL tesla(&sendTesla, MODE_FUNCTION);
-UI1306LPL custom(NULL, MODE_MENU, "Car Mode", &car_mode, "Speed Config", &speed_config, "Tesla", &tesla, "MAC Mode", &mac_mode);
+UI1306LPL custom(NULL, MODE_MENU, "Tesla", &tesla);
 ///////////////
 
 RFM69LPL radio_R(R_CS, DIO2_R); 
 RFM69LPL radio_T(T_CS, DIO2_T);
 
-
-UI1306LPL led_analyser(&ledAnalyser, MODE_FUNCTION);
+UI1306LPL rssi_viewer(&rssiViewer, MODE_FUNCTION);
 UI1306LPL rec_rep(&recordReplay, MODE_FUNCTION);
-UI1306LPL t_config(&transmitterConfig, MODE_FUNCTION);
 UI1306LPL r_config(&receiverConfig, MODE_FUNCTION);
-UI1306LPL ReplayRecord(NULL, MODE_MENU, "Receiver Config", &r_config, "Blocker Config", &t_config, "Record/Replay", &rec_rep, "RSSI Viewer", &led_analyser);
+UI1306LPL ReplayRecord(NULL, MODE_MENU, "Receiver Config", &r_config, "Record/Replay", &rec_rep, "RSSI Viewer", &rssi_viewer);
 
 UI1306LPL spc_analyser(&spectrumAnalyser, MODE_FUNCTION);
 UI1306LPL gx_analyser(&graphicAnalyser, MODE_FUNCTION);
-UI1306LPL sig_analyser(NULL, MODE_MENU, "Graphic Analyser", &gx_analyser, "Spectrum Analyser", &spc_analyser, "LED Analyser", &led_analyser, "Receiver Config", &r_config);
+UI1306LPL sig_analyser(NULL, MODE_MENU, "Graphic Analyser", &gx_analyser, "Spectrum Analyser", &spc_analyser);
 
 UI1306LPL send_cst(&sendConstantWave, MODE_FUNCTION);
-UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst);
+UI1306LPL send_sqr(&sendSquareWave, MODE_FUNCTION);
+UI1306LPL t_config(&transmitterConfig, MODE_FUNCTION);
+UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst, "Send Square Wave", &send_sqr, "Transmitter Config", &t_config);
 
 
 
@@ -76,6 +66,7 @@ void setup() {
   radio_T.readAllRegs(); 
   radio_R.readAllRegs(); printEEPROMSettings();
   radio_R.readAllSettings(); //reads registers and translates into readable form
+  radio_T.readAllSettings(); //reads registers and translates into readable form
   
   main_menu.initializeDisplay(SHOW_BOOT_SCREEN);
   showBattery(); //connect 3.7V battery to pin 35 to get a voltage reading at boot

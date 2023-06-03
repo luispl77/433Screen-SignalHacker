@@ -24,13 +24,13 @@ void graphicAnalyser(){
   }
 }
 
-void ledAnalyser(){
+void rssiViewer(){
   int x = 0;
   unselect_SD();
   radio_R.rxBegin();
   digitalWrite(2, HIGH); delay(200); digitalWrite(2, LOW); delay(200); 
-  led_analyser.drawText("B: exit", 10, 50, 1, NORMAL);
-  led_analyser.updateText(String(read_rssi_threshold()), 0, 30, 1, NORMAL, 4);
+  rssi_viewer.drawText("B: exit", 10, 50, 1, NORMAL);
+  rssi_viewer.updateText(String(read_rssi_threshold()), 0, 30, 1, NORMAL, 4);
   delay(200);
   while(1){
     if(digitalRead(DIO2_R) == 1){
@@ -40,9 +40,9 @@ void ledAnalyser(){
       digitalWrite(2, LOW);
     }
     
-    led_analyser.updateText(String(read_rssi()), 0, 10, 1, NORMAL, 4);
+    rssi_viewer.updateText(String(read_rssi()), 0, 10, 1, NORMAL, 4);
     
-    if(led_analyser.clickB()){
+    if(rssi_viewer.clickB()){
        digitalWrite(2, LOW);
       break;
     }
@@ -55,5 +55,5 @@ byte read_rssi(){
 }
 
 byte read_rssi_threshold(){
-      return radio_R.readReg(REG_RSSITHRESH);
+      return radio_R._fixed_threshold;
 }

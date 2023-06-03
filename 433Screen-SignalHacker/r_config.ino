@@ -145,12 +145,11 @@ void speedDelay(){
   }
   else if(speed_cnt == 16){
     increment = 0.01;
-    ms = 150;
   }
-  else if(speed_cnt == 64){
+  else if(speed_cnt == 50){
     increment = 0.1;
   }
-  else if(speed_cnt == 128){
+  else if(speed_cnt == 85){
     increment = 1;
     ms = 30;
   }
