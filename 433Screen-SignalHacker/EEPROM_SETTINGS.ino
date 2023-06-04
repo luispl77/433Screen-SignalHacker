@@ -93,6 +93,10 @@ void initEEPROM() {
     radio_T.updateSettings();
     pushEEPROMSettings();
   }
+  pullEEPROMSettings(); //pull bytes from eeprom into registers
+  updateVariables(); //translate registers into variables for quick access to values
+  radio_R.updateSettings();
+  radio_T.updateSettings();//write all variables into registers (some settings are not saved by eeprom, and need the default value written at start)
 }
 
 void updateVariables(){
