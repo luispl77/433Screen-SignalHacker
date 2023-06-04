@@ -22,6 +22,14 @@
   int speed_cnt = 0;
   int ms = 200;
   float increment = 0.001;
+
+void IRAM_ATTR led_interupt() {
+    if(digitalRead(DIO2_R) == HIGH)
+      digitalWrite(2, HIGH);
+    else
+      digitalWrite(2, LOW);
+}
+
 void receiverConfig(){
   lna_cursor = radio_R._lna_gain;
   mod_cursor = radio_R._modulation;
@@ -29,7 +37,6 @@ void receiverConfig(){
   bw_cursor = radio_R.getBandwidthIndex();
   frequency = radio_R._frequency;
   fixedThreshold = radio_R._fixed_threshold;
-  r_config.drawText("A: scroll", 72, 50, 1, NORMAL);
   r_config.drawText(String(frequency, 3), 0, 0, 1, NORMAL);
   r_config.drawText(String(fixedThreshold), 0, 10, 1, NORMAL);
   r_config.drawText(String(bw[bw_cursor]), 0, 20, 1, NORMAL);
@@ -37,6 +44,8 @@ void receiverConfig(){
   r_config.drawText(mod[mod_cursor], 0, 40, 1, NORMAL);
   r_config.drawText(String(frequency_dev, 0), 0, 50, 1, NORMAL);
   r_config.drawText("<", 50, 10*_cursor, 1, NORMAL);
+  radio_R.rxBegin();
+  attachInterrupt(DIO2_R, led_interupt, CHANGE);
   while(1){
     if(r_config.clickA()){
       changeCursor();
@@ -63,8 +72,10 @@ void receiverConfig(){
     if(r_config.clickB()){
       radio_R.standby();
       pushEEPROMSettings(); //save changes
+      detachInterrupt(DIO2_R); 
       break;
     }
+    r_config.updateText(String(read_rssi()), 110, 0, 1, NORMAL, 4);
   }
 }
 
@@ -154,4 +165,9 @@ void speedDelay(){
     ms = 30;
   }
   delay(ms);
+}
+
+byte read_rssi(){
+      radio_R.writeReg(REG_RSSICONFIG, 0x01); //trigger read
+      return radio_R.readReg(REG_RSSIVALUE);
 }

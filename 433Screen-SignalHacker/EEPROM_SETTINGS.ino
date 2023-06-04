@@ -4,6 +4,7 @@
  * Furthremore, the class variables are also updated using updatedVariables()
  * which reads the registers and updates the varibles from their default 
  * state after power up.
+ * also 8 registers saved for the transmitter module.
  */
 #define EEPROM_SIZE 13
 #define EEPROM_SIZE_T 8

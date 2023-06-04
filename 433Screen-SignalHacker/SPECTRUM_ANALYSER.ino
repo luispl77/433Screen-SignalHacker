@@ -1,3 +1,6 @@
+/* sweep frequency and evaluate energy to determine the center frequency
+ * (in works)
+ */
 void spectrumAnalyser(){ //sweep 425-450MHz and find highest frequency.
   unselect_SD();
   radio_R.rxBegin();
