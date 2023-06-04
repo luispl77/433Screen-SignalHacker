@@ -9,7 +9,7 @@ Hardware Features (Done):
 - 4 navigation buttons.
 
 Firmware features and modes (currently in development):
-- Custom library for RFM69HW register configurations (https://github.com/luispl77/RFM69LPL) (Done);
+- Custom library for RFM69HW register configurations (https://github.com/luispl77/RFM69LPL) (Done, but may suffer updates);
 - Custom library for UI creation in OLED screen (https://github.com/luispl77/UI1306LPL) (Done);
 - Signal jamming and blocking mode, with various modes of "pollution" (Under development);
 - Simple signal recorder mode, for OOK/FSK signals (Under development);
