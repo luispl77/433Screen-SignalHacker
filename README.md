@@ -36,3 +36,7 @@ EasyEDA schematic and layout: https://oshwlab.com/maarnotto/lpl_esp32signalhacke
 There is a lot of software that is not hard to implement, but requires time. If you are interested in contributing, send me a message, it would be appreciated. The todo list is on the wiki.
 
 My discord: luispl#9021
+
+## [User Manual](https://github.com/luispl77/433Screen-SignalHacker/wiki/User-Manual)
+
+
