@@ -5,9 +5,11 @@
  * which reads the registers and updates the varibles from their default 
  * state after power up.
  * also 8 registers saved for the transmitter module.
+ * register with address 50 tells the program when to right at boot the default values
  */
 #define EEPROM_SIZE 13
 #define EEPROM_SIZE_T 8
+#define EEPROM_BOOL_ADDR 50
 
 byte addr[EEPROM_SIZE] = {
     REG_PALEVEL,
@@ -47,6 +49,7 @@ void printEEPROMSettings() {
     Serial.print(' ');
   }
   Serial.println();
+  Serial.println(EEPROM.read(EEPROM_BOOL_ADDR));
 }
 
 void pullEEPROMSettings() {
@@ -73,12 +76,22 @@ void pushEEPROMSettings() {
       Serial.println("wrote to eeprom (T)");
     }
   }
+  if (EEPROM.read(EEPROM_BOOL_ADDR) != 1){
+    EEPROM.write(EEPROM_BOOL_ADDR, 1); //byte that tells the program if is is the first time writting
+    EEPROM.commit();
+    Serial.println("wrote first write byte indicator");
+  }
 }
 
 void initEEPROM() {
-  if (!EEPROM.begin(EEPROM_SIZE+EEPROM_SIZE_T)){
+  if (!EEPROM.begin(EEPROM_BOOL_ADDR+1)){
     Serial.println("failed to initialise EEPROM");
     delay(1000000);
+  }
+  if (EEPROM.read(EEPROM_BOOL_ADDR) != 1) {
+    radio_R.updateSettings();
+    radio_T.updateSettings();
+    pushEEPROMSettings();
   }
 }
 

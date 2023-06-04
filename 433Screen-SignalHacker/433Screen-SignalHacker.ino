@@ -55,7 +55,6 @@ void setup() {
   radio_T.init();
   
   initEEPROM();
-  pushEEPROMSettings(); //needed for first boot
   pullEEPROMSettings(); //pull bytes from eeprom into registers
   updateVariables(); //translate registers into variables for quick access to values
   radio_R.updateSettings(); //write all variables into registers (some settings are not saved by eeprom, and need the default value written at start)
