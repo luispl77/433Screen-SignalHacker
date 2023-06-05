@@ -18,7 +18,7 @@ void graphicAnalyser(){
     if(x == 128) x = 0;
     
     if(gx_analyser.clickB()){
-
+      radio_R.standby();
       break;
     }
   }
