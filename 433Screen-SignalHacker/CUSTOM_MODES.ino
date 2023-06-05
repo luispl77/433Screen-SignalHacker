@@ -2,11 +2,12 @@
 int tesla_signal[236] = {400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 1200, 400, 400, 400, 400, 800, 800, 400, 400, 800, 800, 800, 800, 400, 400, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 400, 400, 800, 400, 400, 800, 800, 400, 400, 800, 400, 400, 800, 400, 400, 400, 400, 800, 400, 400, 400, 400, 800, 400, 400, 800, 800, 400, 400, 800, 800, 800, 400, 400, 400, 400, 400, 400, 800, 400, 400, 800, 400, 400, 800, 1200, 400, 400, 400, 400, 800, 800, 400, 400, 800, 800, 800, 800, 400, 400, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 400, 400, 800, 400, 400, 800, 800, 400, 400, 800, 400, 400, 800, 400, 400, 400, 400, 800, 400, 400, 400, 400, 800, 400, 400, 800, 800, 400, 400, 800, 800, 800, 400, 400, 400, 400, 400, 400, 800, 400, 400, 800, 400, 400, 800, 1200, 400, 400, 400, 400, 800, 800, 400, 400, 800, 800, 800, 800, 400, 400, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 400, 400, 800, 400, 400, 800, 800, 400, 400, 800, 400, 400, 800, 400, 400, 400, 400, 800, 400, 400, 400, 400, 800, 400, 400, 800, 800, 400, 400, 800, 800, 800, 400, 400, 400, 400, 400, 400, 800, 400, 400, 800, 400, 400, 400, 100};
 void sendTesla(){
   int i = 0;
-  radio_T.setTransmitPower(20, PA_MODE_PA1_PA2_20dbm, OCP_OFF); //max power
-  radio_T.txBegin();
+  radio_R.setTransmitPower(20, PA_MODE_PA1_PA2_20dbm, OCP_OFF); //max power
+  radio_R.txBegin();
   tesla_door.drawText("TESLA", 0, 0, 2, NORMAL);
   tesla_door.drawText("UP: send", 0, 45, 1, NORMAL);
   tesla_door.drawText("B: exit", 0, 55, 1, NORMAL);
+  tesla_door.drawText(String(radio_R._frequency), 75, 55, 1, NORMAL);
   delay(400);
   while(1){
     if(tesla_door.clickA()){
@@ -15,9 +16,9 @@ void sendTesla(){
     if(tesla_door.clickUP()){
       ledOn();
       for(int i = 0; i < 236; i += 2){
-        radio_T.send(1);
+        radio_R.send(1);
         delayMicroseconds(tesla_signal[i]);
-        radio_T.send(0);
+        radio_R.send(0);
         delayMicroseconds(tesla_signal[i+1]);
       }
       ledOff();
@@ -27,7 +28,7 @@ void sendTesla(){
       delay(10);
     }
     if(tesla_door.clickB()){
-      radio_T.standby();
+      radio_R.standby();
       break;
     }
   }
@@ -58,7 +59,7 @@ void readBattery(){
     if(read_battery.clickDOWN()){
       delay(200);
     }
-    if(send_sqr.clickB()){
+    if(read_battery.clickB()){
       break; 
     }
   }

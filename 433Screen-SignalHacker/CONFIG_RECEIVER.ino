@@ -7,8 +7,8 @@
                       RF_LNA_GAINSELECT_MAXMINUS36, RF_LNA_GAINSELECT_MAXMINUS48};
   String lg[7] = {"AUTO", "MAX", "MAX-6", "MAX-12", "MAX-24", "MAX-36", "MAX-48"};
   
-  byte modulation[2] = {MOD_FSK, MOD_OOK};
-  String mod[2] = {"FSK", "OOK"};
+  extern byte modulation[2] = {MOD_FSK, MOD_OOK};
+  extern String mod[2] = {"FSK", "OOK"};
   
   
   int lna_cursor;
@@ -22,7 +22,7 @@
   int speed_cnt = 0;
   int ms = 200;
   float increment = 0.001;
-
+  
 void IRAM_ATTR led_interupt() {
     if(digitalRead(DIO2_R) == HIGH)
       digitalWrite(2, HIGH);

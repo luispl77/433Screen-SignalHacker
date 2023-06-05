@@ -37,10 +37,9 @@ UI1306LPL rec_rep(&recordReplay, MODE_FUNCTION);
 UI1306LPL r_config(&receiverConfig, MODE_FUNCTION);
 UI1306LPL receive_replay(NULL, MODE_MENU, "Receiver Config", &r_config, "Record/Replay", &rec_rep, "Graphic Analyser", &gx_analyser, "Spectrum Analyser", &spc_analyser);
 
-UI1306LPL send_cst(&sendConstantWave, MODE_FUNCTION);
-UI1306LPL send_sqr(&sendSquareWave, MODE_FUNCTION);
-UI1306LPL t_config(&transmitterConfig, MODE_FUNCTION);
-UI1306LPL signal_jammer(NULL, MODE_MENU, "Send Constant Wave", &send_cst, "Send Square Wave", &send_sqr, "Transmitter Config", &t_config);
+UI1306LPL send_jam(&sendJammingSignal, MODE_FUNCTION);
+UI1306LPL j_config(&jammerConfig, MODE_FUNCTION);
+UI1306LPL signal_jammer(NULL, MODE_MENU, "Jam", &send_jam, "Jammer Config", &j_config);
 
 UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Receive/Replay", &receive_replay, "Custom Modes", &custom_modes);
 
