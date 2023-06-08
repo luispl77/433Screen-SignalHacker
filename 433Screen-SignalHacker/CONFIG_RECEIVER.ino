@@ -15,7 +15,7 @@
   int mod_cursor;
   float frequency_dev;
   int bw_cursor;
-  int _cursor = 0; //making this global means the cursor remembers where it left off after leaving r_config
+  int _cursor = 0; //making this global means the cursor remembers where it left off after leaving UI
   int max_cursor = 5;
   int fixedThreshold;
   float frequency;
@@ -36,24 +36,24 @@ void receiverConfig(){
   bw_cursor = radio_R.getBandwidthIndex();
   frequency = radio_R._frequency;
   fixedThreshold = radio_R._fixed_threshold;
-  r_config.drawText(String(frequency, 3), 0, 0, 1, NORMAL);
-  r_config.drawText(String(fixedThreshold), 0, 10, 1, NORMAL);
-  r_config.drawText(String(bw[bw_cursor]), 0, 20, 1, NORMAL);
-  r_config.drawText(lg[lna_cursor], 0, 30, 1, NORMAL);
-  r_config.drawText(mod[mod_cursor], 0, 40, 1, NORMAL);
-  r_config.drawText(String(frequency_dev, 0), 0, 50, 1, NORMAL);
-  r_config.drawText("<", 50, 10*_cursor, 1, NORMAL);
-  r_config.drawText("RSSI:", 66, 0, 1, NORMAL);
-  r_config.drawText("PULSE:", 60, 10, 1, NORMAL);
+  UI.drawText(String(frequency, 3), 0, 0, 1, NORMAL);
+  UI.drawText(String(fixedThreshold), 0, 10, 1, NORMAL);
+  UI.drawText(String(bw[bw_cursor]), 0, 20, 1, NORMAL);
+  UI.drawText(lg[lna_cursor], 0, 30, 1, NORMAL);
+  UI.drawText(mod[mod_cursor], 0, 40, 1, NORMAL);
+  UI.drawText(String(frequency_dev, 0), 0, 50, 1, NORMAL);
+  UI.drawText("<", 50, 10*_cursor, 1, NORMAL);
+  UI.drawText("RSSI:", 66, 0, 1, NORMAL);
+  UI.drawText("PULSE:", 60, 10, 1, NORMAL);
   radio_R.rxBegin();
   attachInterrupt(DIO2_R, led_interupt, CHANGE);
   while(1){
-    if(r_config.clickA()){
+    if(UI.clickA()){
       changeCursor();
       delay(200);
     }
-    if(r_config.clickUP()){
-      while(r_config.clickUP()){
+    if(UI.clickUP()){
+      while(UI.clickUP()){
         triggerIncrease();
         speedDelay();
       }
@@ -61,8 +61,8 @@ void receiverConfig(){
       ms = 200;
       increment = 0.001;
     }
-    if(r_config.clickDOWN()){
-      while(r_config.clickDOWN()){
+    if(UI.clickDOWN()){
+      while(UI.clickDOWN()){
         triggerDecrease();
         speedDelay();
       }
@@ -70,82 +70,82 @@ void receiverConfig(){
       ms = 200;
       increment = 0.001;
     }
-    if(r_config.clickB()){
+    if(UI.clickB()){
       radio_R.standby();
       pushEEPROMSettings(); //save changes
       detachInterrupt(DIO2_R); 
       break;
     }
-    r_config.updateText(String(read_rssi()), 110, 0, 1, NORMAL, 4);
-    r_config.updateText(String(pulse_cnt), 100, 10, 1, NORMAL, 6);
+    UI.updateText(String(read_rssi()), 110, 0, 1, NORMAL, 4);
+    UI.updateText(String(pulse_cnt), 100, 10, 1, NORMAL, 6);
   }
 }
 
 void changeCursor(){
   _cursor++; if(_cursor == max_cursor + 1) _cursor = 0;
-  r_config.updateText(" ", 50, (_cursor == 0) ? max_cursor*10 : (_cursor * 10  - 10), 1, NORMAL, 1);
-  r_config.drawText("<", 50, 10*_cursor, 1, NORMAL);
+  UI.updateText(" ", 50, (_cursor == 0) ? max_cursor*10 : (_cursor * 10  - 10), 1, NORMAL, 1);
+  UI.drawText("<", 50, 10*_cursor, 1, NORMAL);
 }
 
 void triggerIncrease(){
   if(_cursor == 0){
     radio_R.setFrequencyMHz(radio_R._frequency + increment); 
-    r_config.updateText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL, 8);
+    UI.updateText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(_cursor == 1){
     radio_R.setFixedThreshold(radio_R._fixed_threshold + 1);
-    r_config.updateText(String(radio_R._fixed_threshold), 0, 10, 1, NORMAL, 8);
+    UI.updateText(String(radio_R._fixed_threshold), 0, 10, 1, NORMAL, 8);
   }
   else if(_cursor == 2){
     bw_cursor++; if(bw_cursor > 22) bw_cursor = 0;
     radio_R.setBandwidth(bandwidth[bw_cursor]);
-    r_config.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
+    UI.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
   }
   else if(_cursor == 3){
     lna_cursor++; if(lna_cursor > 6) lna_cursor = 0;
     radio_R.setLNAGain(lna_gain[lna_cursor]);
-    r_config.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
+    UI.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
   }
   else if(_cursor == 4){
     mod_cursor++; if(mod_cursor > 1) mod_cursor = 0;
     radio_R.setModulationType(modulation[mod_cursor]);
-    r_config.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
+    UI.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
   }
   if(_cursor == 5){
     if(frequency_dev < 300000) frequency_dev += 61;
     radio_R.setFrequencyDev(frequency_dev);
-    r_config.updateText(String(frequency_dev, 0), 0, 50, 1, NORMAL, 8);
+    UI.updateText(String(frequency_dev, 0), 0, 50, 1, NORMAL, 8);
   }
 }
 
 void triggerDecrease(){
   if(_cursor == 0){
     radio_R.setFrequencyMHz(radio_R._frequency - increment);
-    r_config.updateText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL, 8);
+    UI.updateText(String(radio_R._frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(_cursor == 1){
     radio_R.setFixedThreshold(radio_R._fixed_threshold - 1); 
-    r_config.updateText(String(radio_R._fixed_threshold), 0, 10, 1, NORMAL, 8);
+    UI.updateText(String(radio_R._fixed_threshold), 0, 10, 1, NORMAL, 8);
   }
   else if(_cursor == 2){
     bw_cursor--; if(bw_cursor < 0) bw_cursor = 22;
     radio_R.setBandwidth(bandwidth[bw_cursor]);
-    r_config.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
+    UI.updateText(String(bw[bw_cursor]), 0, 20, 1, NORMAL, 8);
   }
   else if(_cursor == 3){
     lna_cursor--; if(lna_cursor < 0) lna_cursor = 6;
     radio_R.setLNAGain(lna_gain[lna_cursor]);
-    r_config.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
+    UI.updateText(lg[lna_cursor], 0, 30, 1, NORMAL, 8);
   }
   else if(_cursor == 4){
     mod_cursor--; if(mod_cursor < 0) mod_cursor = 1;
     radio_R.setModulationType(modulation[mod_cursor]);
-    r_config.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
+    UI.updateText(mod[mod_cursor], 0, 40, 1, NORMAL, 8);
   }
   if(_cursor == 5){
     if(frequency_dev > 0) frequency_dev -= 61;
     radio_R.setFrequencyDev(frequency_dev);
-    r_config.updateText(String(frequency_dev, 0), 0, 50, 1, NORMAL, 8);
+    UI.updateText(String(frequency_dev, 0), 0, 50, 1, NORMAL, 8);
   }
 }
 

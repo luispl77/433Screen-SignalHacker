@@ -32,7 +32,7 @@ void spectrumAnalyser(){ //sweep 425-450MHz and find highest frequency.
         found = true;
       }
     }
-    spc_analyser.updateText(String(best_frequency, 3), 40, 20, 1, NORMAL, 8);
+    UI.updateText(String(best_frequency, 3), 40, 20, 1, NORMAL, 8);
     if (increment >= 0.0208 && found){ //shorten the search but increase precision
       if(inc_index < 4)inc_index++; //go down in step, increasing precision
       gap /= (increment/increments[inc_index]); //find ratio to find new shorter gap
@@ -43,7 +43,7 @@ void spectrumAnalyser(){ //sweep 425-450MHz and find highest frequency.
     
     
     
-    if(spc_analyser.clickB()){
+    if(UI.clickB()){
 
       break;
     }

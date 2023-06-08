@@ -16,22 +16,22 @@ void jammerConfig(){
   int max_cursor = 4;
   float _frequency = radio_T._frequency;
   int dbm = radio_T._dbm;
-  j_config.drawText("A: scroll", 72, 50, 1, NORMAL);
-  j_config.drawText(String(_frequency, 3), 0, 0, 1, NORMAL);
-  j_config.drawText(String(dbm), 0, 10, 1, NORMAL);
-  j_config.drawText(mod[mod_cursor_T], 0, 20, 1, NORMAL);
-  j_config.drawText(String(_frequency_dev), 0, 30, 1, NORMAL);
-  j_config.drawText(String(modes[_mode]), 0, 40, 1, NORMAL);
-  j_config.drawText("<", 50, 10*cursor, 1, NORMAL);
+  UI.drawText("A: scroll", 72, 50, 1, NORMAL);
+  UI.drawText(String(_frequency, 3), 0, 0, 1, NORMAL);
+  UI.drawText(String(dbm), 0, 10, 1, NORMAL);
+  UI.drawText(mod[mod_cursor_T], 0, 20, 1, NORMAL);
+  UI.drawText(String(_frequency_dev), 0, 30, 1, NORMAL);
+  UI.drawText(String(modes[_mode]), 0, 40, 1, NORMAL);
+  UI.drawText("<", 50, 10*cursor, 1, NORMAL);
   while(1){
-    if(j_config.clickA()){
+    if(UI.clickA()){
       cursor++; if(cursor == max_cursor + 1) cursor = 0;
-      j_config.updateText(" ", 50, (cursor == 0) ? max_cursor*10 : (cursor * 10  - 10), 1, NORMAL, 1);
-      j_config.drawText("<", 50, 10*cursor, 1, NORMAL);
+      UI.updateText(" ", 50, (cursor == 0) ? max_cursor*10 : (cursor * 10  - 10), 1, NORMAL, 1);
+      UI.drawText("<", 50, 10*cursor, 1, NORMAL);
       delay(300);
     }
-    if(j_config.clickUP()){
-      while(j_config.clickUP()){
+    if(UI.clickUP()){
+      while(UI.clickUP()){
         triggerIncrease_T(&dbm, &mod_cursor_T, &_frequency_dev, &cursor);
         speedDelay();
       }
@@ -40,8 +40,8 @@ void jammerConfig(){
       increment = 0.001;
       delay(200);
     }
-    if(j_config.clickDOWN()){
-      while(j_config.clickDOWN()){
+    if(UI.clickDOWN()){
+      while(UI.clickDOWN()){
         triggerDecrease_T(&dbm, &mod_cursor_T, &_frequency_dev, &cursor);
         speedDelay();
       }
@@ -50,7 +50,7 @@ void jammerConfig(){
       increment = 0.001;
       delay(200);
     }
-    if(j_config.clickB()){
+    if(UI.clickB()){
       pushEEPROMSettings();
       printEEPROMSettings();
       //radio_T.standby();
@@ -62,63 +62,63 @@ void jammerConfig(){
 void triggerIncrease_T(int * _dbm, int * _mod_cursor, int * _frequency_dev, int * _cursor){
   if(*_cursor == 0){
     radio_T.setFrequencyMHz(radio_T._frequency + increment); 
-    j_config.updateText(String(radio_T._frequency, 3), 0, 0, 1, NORMAL, 8);
+    UI.updateText(String(radio_T._frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(*_cursor == 1){
     if(*_dbm < 20){(*_dbm)++;} radio_T.setTransmitPower(*_dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
-    j_config.updateText(String(*_dbm), 0, 10, 1, NORMAL, 8);
+    UI.updateText(String(*_dbm), 0, 10, 1, NORMAL, 8);
   }
   else if(*_cursor == 2){
     (*_mod_cursor)++; if(*_mod_cursor > 1) {
       (*_mod_cursor) = 0;
     }
     radio_T.setModulationType(modulation[*_mod_cursor]);
-    j_config.updateText(mod[(*_mod_cursor)], 0, 20, 1, NORMAL, 8);
+    UI.updateText(mod[(*_mod_cursor)], 0, 20, 1, NORMAL, 8);
   }
   if(*_cursor == 3){
     if(*_frequency_dev < 300000) {
       (*_frequency_dev) += 61;
     }
     radio_T.setFrequencyDev(*_frequency_dev);
-    j_config.updateText(String(*_frequency_dev), 0, 30, 1, NORMAL, 8);
+    UI.updateText(String(*_frequency_dev), 0, 30, 1, NORMAL, 8);
   }
   if(*_cursor == 4){
     if(_mode < 2)
       _mode++;
     else
       _mode = 0;
-    j_config.updateText(modes[_mode], 0, 40, 1, NORMAL, 7);
+    UI.updateText(modes[_mode], 0, 40, 1, NORMAL, 7);
   }
 }
 
 void triggerDecrease_T(int * _dbm, int * _mod_cursor, int * _frequency_dev, int * _cursor){
   if(*_cursor == 0){
     radio_T.setFrequencyMHz(radio_T._frequency - increment);
-    j_config.updateText(String(radio_T._frequency, 3), 0, 0, 1, NORMAL, 8);
+    UI.updateText(String(radio_T._frequency, 3), 0, 0, 1, NORMAL, 8);
   }
   else if(*_cursor == 1){
     if(*_dbm > 0){(*_dbm)--;} radio_T.setTransmitPower(*_dbm, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
-    j_config.updateText(String(*_dbm), 0, 10, 1, NORMAL, 8);
+    UI.updateText(String(*_dbm), 0, 10, 1, NORMAL, 8);
   }
   else if(*_cursor == 2){
     (*_mod_cursor)--; if(*_mod_cursor < 0) {
       (*_mod_cursor) = 1;
     }
     radio_T.setModulationType(modulation[*_mod_cursor]);
-    j_config.updateText(mod[(*_mod_cursor)], 0, 20, 1, NORMAL, 8);
+    UI.updateText(mod[(*_mod_cursor)], 0, 20, 1, NORMAL, 8);
   }
   if(*_cursor == 3){
     if(*_frequency_dev > 0) {
       (*_frequency_dev) -= 61;
     }
     radio_T.setFrequencyDev(*_frequency_dev);
-    j_config.updateText(String(*_frequency_dev), 0, 30, 1, NORMAL, 8);
+    UI.updateText(String(*_frequency_dev), 0, 30, 1, NORMAL, 8);
   }
   if(*_cursor == 4){
     if(_mode > 0)
       _mode--;
     else
       _mode = 2;
-    j_config.updateText(modes[_mode], 0, 40, 1, NORMAL, 7);
+    UI.updateText(modes[_mode], 0, 40, 1, NORMAL, 7);
   }
 }
