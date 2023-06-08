@@ -10,8 +10,8 @@ Hardware Features (Done):
 
 Firmware features and modes (currently in development):
 - Custom library for RFM69HW register configurations (https://github.com/luispl77/RFM69LPL) (Done, but may suffer updates);
-- Custom library for UI creation in OLED screen (https://github.com/luispl77/UI1306LPL) (Done);
-- Signal jamming and blocking mode, with various modes of "pollution" (Under development);
+- Custom library for UI creation in OLED screen (https://github.com/luispl77/UI1306LPL) (Done, but may suffer updates);
+- Signal jamming and blocking mode, with various modes of "pollution" (Done);
 - Simple signal recorder mode, for OOK/FSK signals (Under development);
 - Rolljam attack signal recorder and sender, for hacking cars with rolling codes (Under development);
 - Signal file explorer for recorded signals, using custom file format (Under development);
