@@ -22,15 +22,14 @@
   int speed_cnt = 0;
   int ms = 200;
   float increment = 0.001;
+  uint16_t pulse_cnt = 0;
   
 void IRAM_ATTR led_interupt() {
-    if(digitalRead(DIO2_R) == HIGH)
-      digitalWrite(2, HIGH);
-    else
-      digitalWrite(2, LOW);
+    pulse_cnt++;
 }
 
 void receiverConfig(){
+  pulse_cnt = 0;
   lna_cursor = radio_R._lna_gain;
   mod_cursor = radio_R._modulation;
   frequency_dev = radio_R.getFrequencyDev();
@@ -44,6 +43,8 @@ void receiverConfig(){
   r_config.drawText(mod[mod_cursor], 0, 40, 1, NORMAL);
   r_config.drawText(String(frequency_dev, 0), 0, 50, 1, NORMAL);
   r_config.drawText("<", 50, 10*_cursor, 1, NORMAL);
+  r_config.drawText("RSSI:", 66, 0, 1, NORMAL);
+  r_config.drawText("PULSE:", 60, 10, 1, NORMAL);
   radio_R.rxBegin();
   attachInterrupt(DIO2_R, led_interupt, CHANGE);
   while(1){
@@ -76,6 +77,7 @@ void receiverConfig(){
       break;
     }
     r_config.updateText(String(read_rssi()), 110, 0, 1, NORMAL, 4);
+    r_config.updateText(String(pulse_cnt), 100, 10, 1, NORMAL, 6);
   }
 }
 
