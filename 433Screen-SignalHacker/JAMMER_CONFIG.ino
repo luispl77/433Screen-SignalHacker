@@ -87,7 +87,7 @@ void triggerIncrease_T(int * _dbm, int * _mod_cursor, int * _frequency_dev, int 
       _mode++;
     else
       _mode = 0;
-    j_config.updateText(modes[_mode], 0, 40, 1, NORMAL, 11);
+    j_config.updateText(modes[_mode], 0, 40, 1, NORMAL, 7);
   }
 }
 
@@ -119,6 +119,6 @@ void triggerDecrease_T(int * _dbm, int * _mod_cursor, int * _frequency_dev, int 
       _mode--;
     else
       _mode = 2;
-    j_config.updateText(modes[_mode], 0, 40, 1, NORMAL, 11);
+    j_config.updateText(modes[_mode], 0, 40, 1, NORMAL, 7);
   }
 }
