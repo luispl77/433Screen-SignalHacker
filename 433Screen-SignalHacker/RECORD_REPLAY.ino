@@ -10,7 +10,7 @@ void IRAM_ATTR isr() {
 }
 
 void recordReplay(){
-  int nr_samples = 0;
+  int nr_samples = 0; long timeout = 0;
   clear_ram();
   UI.drawText("PULSES:", 0, 0, 1, NORMAL);
   UI.drawText("A: record", 60, 35, 1, NORMAL);
@@ -22,20 +22,23 @@ void recordReplay(){
     if(UI.clickA() && i < ram){
       radio_R.rxBegin(); UI.updateText("REC..", 0, 40, 1, NORMAL, 8);
       ledOn(); i = 0;
-      Serial.println("begin recording");
-      while(digitalRead(DIO2_R) == LOW); 
+      Serial.println("begin recording"); delay(400);
+      while(digitalRead(DIO2_R) == LOW && timeout < 1000000){
+        timeout++;
+      }
       previous_micros = micros();
       attachInterrupt(DIO2_R, isr, CHANGE);
-      while(UI.clickA());
+      while(!UI.clickA());
       detachInterrupt(DIO2_R); 
       UI.updateText(String(i), 45, 0, 1, NORMAL, 8); //update pulses
-      delay(100);
-      ledOff();
-      dump_ram();
+      //dump_ram(); 
+      timeout = 0;
       radio_R.standby();
       radio_R.setTransmitPower(20, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
       radio_R.txBegin();
       UI.updateText("      ", 0, 40, 1, NORMAL, 8);
+      ledOff();
+      delay(200);
     }
 
     
