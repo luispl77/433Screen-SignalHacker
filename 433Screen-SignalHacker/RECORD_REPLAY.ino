@@ -1,12 +1,12 @@
  int ram = 10000;
  unsigned long readings[10000];
- int i = 0; int j = 0;
+ int index_ram = 0; int j = 0;
  unsigned long previous_micros;
  
 void IRAM_ATTR isr() {
     readings[i] = micros() - previous_micros;
     previous_micros = micros();
-    i++;
+    index++;
 }
 
 void recordReplay(){
@@ -19,53 +19,24 @@ void recordReplay(){
   delay(500);
   
   while(1){
-    if(UI.clickA() && i < ram){
-      radio_R.rxBegin(); UI.updateText("REC..", 0, 40, 1, NORMAL, 8);
-      ledOn(); i = 0;
-      Serial.println("begin recording"); delay(400);
-      while(digitalRead(DIO2_R) == LOW && timeout < 1000000){
-        timeout++;
-      }
-      previous_micros = micros();
-      attachInterrupt(DIO2_R, isr, CHANGE);
-      while(!UI.clickA());
-      detachInterrupt(DIO2_R); 
-      UI.updateText(String(i), 45, 0, 1, NORMAL, 8); //update pulses
-      //dump_ram(); 
-      timeout = 0;
-      radio_R.standby();
-      radio_R.setTransmitPower(20, PA_MODE_PA1_PA2_20dbm, OCP_OFF);
-      radio_R.txBegin();
-      UI.updateText("      ", 0, 40, 1, NORMAL, 8);
-      ledOff();
+    if(UI.clickA()){
+      recordRAM();
       delay(200);
     }
 
-    
     if(UI.clickUP()){
-      j = 0; UI.updateText("REP...", 0, 40, 1, NORMAL, 8);
-      ledOn();
       while(UI.clickUP()){
-        radio_R.send(1);
-        delay_us(readings[j]); //ets_delay_us(10);
-        radio_R.send(0);
-        delay_us(readings[j+1]); //delayMicroseconds
-        j += 2; 
-        if(j >= i) j = 0; //start from begining of recorded signal
+        UI.updateText("REP...", 0, 40, 1, NORMAL, 8);
+        sendSignal(readings);
+        UI.updateText("      ", 0, 40, 1, NORMAL, 8);
       }
-      UI.updateText("      ", 0, 40, 1, NORMAL, 8);
-      delay(100);
-      ledOff();
-      
     }
     
     if(UI.clickDOWN()){
-      ledOn();
       clear_ram();
-      i = 0;
-      UI.updateText(String(i), 45, 0, 1, NORMAL, 8); //update pulses
+      index_ram = 0;
+      UI.updateText(String(readings[0]), 45, 0, 1, NORMAL, 8); //update pulses
       delay(200);
-      ledOff();
 
     }
     
@@ -93,4 +64,18 @@ void dump_ram() {
     Serial.print(' ');
   }
   Serial.println(); 
+}
+
+void sendSignal(unsigned long * arr){
+  radio_R.txBegin();
+  j = 1; UI.updateText("SEND...", 0, 24, 1, NORMAL, 19);
+  while(j < arr[0]){
+     radio_R.send(1);
+     delayMicroseconds(arr[j]); 
+     radio_R.send(0);
+     delayMicroseconds(arr[j+1]);
+     j += 2; 
+  }
+  UI.updateText("      ", 0, 24, 1, NORMAL, 10);
+  delay(200);
 }

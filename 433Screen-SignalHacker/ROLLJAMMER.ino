@@ -13,9 +13,10 @@ void rollJammer(){
   clear_ram();
   UI.drawText("PULSES:", 0, 0, 1, NORMAL);
   UI.drawText("DOWN: replay", 0, 35, 1, NORMAL);
-  UI.drawText("A: hold to record 1st", 0, 45, 1, NORMAL);
-  UI.drawText("UP: record 2nd/send 1st", 0, 55, 1, NORMAL);
+  UI.drawText("A: rec 1st", 0, 45, 1, NORMAL);
+  UI.drawText("UP: rec 2nd/send 1st", 0, 55, 1, NORMAL);
   radio_R.setTransmitPower(20, PA_MODE_PA1_PA2_20dbm, OCP_OFF); //always replay at max power
+  delay(400);
   while(1){
     if(UI.clickA()){
       activateJammer();
@@ -32,6 +33,7 @@ void rollJammer(){
       sendSignal(readings);
     }
     if(UI.clickB()){
+      radio_R.standby();
       break;
     }
   }
@@ -49,15 +51,19 @@ void deactivateJammer(){
 
 void recordRAM(){
   unsigned long previous_millis;
-  radio_R.rxBegin(); UI.updateText("Waiting signal..", 0, 24, 1, NORMAL, 8);
+  radio_R.rxBegin(); UI.updateText("Waiting signal..", 0, 24, 1, NORMAL, 12);
   index_isr = 1; //leave index 0 for storing i value (nr of pulses)
 
   previous_millis = millis();
   previous_micros = micros();
   attachInterrupt(DIO2_R, isr_rolljam, CHANGE);
-  while(index_isr < 100){ //minimum number of pulses for a valid signal: 100
-    if(millis() - previous_millis < 2000){ //one second of timeout waiting for a signal
-      UI.updateText("No signal.", 0, 24, 1, NORMAL, 8);
+  while(1){ 
+    if((millis() - previous_millis > 2000) && (index_isr < 100)){ //two seconds of timeout waiting for a signal, less than 100 pulses show up
+      UI.updateText("No signal.", 0, 24, 1, NORMAL, 19);
+      break;
+    }
+    if((index_isr > 100) && (micros() - previous_micros < 1000000)){ //signal was caught, stay in ISR for the rest of the signal, with a timout of 1 second of no signal presense
+      UI.updateText("SIGNAL FOUND", 0, 24, 1, NORMAL, 19);
       break;
     }
   }
@@ -65,21 +71,7 @@ void recordRAM(){
   readings[0] = index_isr; //write the number of pulses to the first element
   
   UI.updateText(String(index_isr), 45, 0, 1, NORMAL, 8); //update pulses count
-  UI.updateText("           ", 0, 20, 1, NORMAL, 8);
-}
-
-void sendSignal(unsigned long * arr){
-  radio_R.txBegin();
-  j = 1; UI.updateText("SEND...", 0, 20, 1, NORMAL, 8);
-  while(j < arr[0]){
-     radio_R.send(1);
-     delay_us(arr[j]); 
-     radio_R.send(0);
-     delay_us(arr[j+1]);
-     j += 2; 
-  }
-  UI.updateText("      ", 0, 20, 1, NORMAL, 8);
-  delay(200);
+  
 }
 
 void transferRAMtoBuffer(unsigned long * arr){
