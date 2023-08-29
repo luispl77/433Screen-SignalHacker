@@ -39,9 +39,13 @@ UI1306LPL receive_replay(NULL, MODE_MENU, "Receiver Config", &r_config, "Record/
 
 UI1306LPL send_jam(&sendJammingSignal, MODE_FUNCTION);
 UI1306LPL j_config(&jammerConfig, MODE_FUNCTION);
+UI1306LPL rolljam(&rollJammer, MODE_FUNCTION);
+
+UI1306LPL roll_jammer(NULL, MODE_MENU, "Receiver Config", &r_config, "Jammer Config", &j_config, "Rolljam", &rolljam);
+
 UI1306LPL signal_jammer(NULL, MODE_MENU, "Jam", &send_jam, "Jammer Config", &j_config);
 
-UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Receive/Replay", &receive_replay, "Custom Modes", &custom_modes);
+UI1306LPL main_menu(NULL, MODE_MENU, "Signal Jammer", &signal_jammer, "Receive/Replay", &receive_replay, "Rolljammer", &roll_jammer, "Custom Modes", &custom_modes);
 
 
 void setup() {
