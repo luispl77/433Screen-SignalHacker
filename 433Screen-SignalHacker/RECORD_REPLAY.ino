@@ -2,11 +2,12 @@
  unsigned long readings[10000];
  int index_ram = 0; int j = 0;
  unsigned long previous_micros;
+ int i;
  
 void IRAM_ATTR isr() {
     readings[i] = micros() - previous_micros;
     previous_micros = micros();
-    index++;
+    i++;
 }
 
 void recordReplay(){
