@@ -1,6 +1,6 @@
 # 433Screen-SignalHacker
 
-> **Project status:** This repository is an older 433 MHz signal-hacking prototype. It has been superseded by **EMWaver**, the current cross-platform electronics platform from Continual MI. For equivalent shield-style hardware functionality, see the **EMWaver Air**. For the full EMWaver platform, apps, firmware, scripts, and documentation, see https://emwaver.ai.
+> **Project status:** This repository is an older 433 MHz signal-hacking prototype. It was superseded by **EMWaver**, Continual MI's hardware exploration platform, which was itself retired and archived in July 2026. The complete EMWaver history — every board, era, and pivot, with photos and videos — lives at https://continualmi.com/blog/emwaver.
 
 Full duplex 433 MHz Signal jammer, recorder, decoder and hacking multitool device based on ESP32 microcontroller and RFM69HW radios. This version of the device provides an OLED screen and simple UI to navigate menus and different hacks/modes/settings.
 
